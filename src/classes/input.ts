@@ -8,7 +8,7 @@ export class InputManager {
         this.scene = scene
     }
 
-    addAction(action: string, keys: string[]) {
+    setAction(action: string, keys: string[]) {
         const mapped = keys
             .map(key => this.scene.input.keyboard?.addKey(key))
             .filter((key): key is Phaser.Input.Keyboard.Key => key !== undefined)

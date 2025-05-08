@@ -4,6 +4,7 @@ import { Player } from "./classes/player"
 class MainScene extends Phaser.Scene {
     preload() {
         this.load.image("player", "assets/ship.png")
+        this.load.image("bullet", "assets/bullet.png")
     }
 
     create() {
