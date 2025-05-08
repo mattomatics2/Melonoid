@@ -21,5 +21,10 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
 
         const angle = Phaser.Math.Angle.Between(this.x, this.y, mouseX, mouseY)
         this.rotation = angle
+
+        // movement
+        const directionX = (this.cursors.right.isDown ? 1 : 0) - (this.cursors.left.isDown ? 1 : 0)
+        const directionY = (this.cursors.down.isDown ? 1 : 0) - (this.cursors.up.isDown ? 1 : 0)
+        this.setVelocity(directionX * 500, directionY * 500)
     }
 }

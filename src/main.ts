@@ -7,17 +7,17 @@ class MainScene extends Phaser.Scene {
     }
 
     create() {
-        new Player(this, 400, 300)
+        new Player(this, 600, 325)
     }
 
-    update() {
+    // update() {
 
-    }
+    // }
 }
 
 const config = {
     type: Phaser.WEBGL,
-    width: 1000,
+    width: 1200,
     height: 650,
     scene: MainScene,
 
