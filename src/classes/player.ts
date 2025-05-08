@@ -16,12 +16,17 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
     }
 
     setup() {
+        // properties
         this.setScale(0.2, 0.2)
+        this.setDrag(500)
+        this.setMaxVelocity(500, 500)
         
+        // inputs
         this.inputManager.addAction("left", ["left", "a"])
         this.inputManager.addAction("right", ["right", "d"])
         this.inputManager.addAction("up", ["up", "w"])
         this.inputManager.addAction("down", ["down", "s"])
+        
     }
 
     onUpdate() {
@@ -35,6 +40,9 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
         // movement
         const directionX = this.inputManager.getInputAxis("right", "left")
         const directionY = this.inputManager.getInputAxis("down", "up")
-        this.setVelocity(directionX * 500, directionY * 500)
+        this.setAcceleration(directionX * 1500, directionY * 1500)
+
+        // wrapping
+        this.scene.physics.world.wrap(this, 32)
     }
 }
