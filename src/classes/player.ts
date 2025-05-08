@@ -4,10 +4,10 @@ import { Bullet } from "./bullet"
 
 export class Player extends Phaser.Physics.Arcade.Sprite {
     private inputManager: InputManager
-    private lastShot: number = 0
-    private fireRate: number = 150
+    private lastShot: integer = 0
+    private fireDelay: integer = 150
 
-    constructor(scene: Phaser.Scene, x: number, y: number) {
+    constructor(scene: Phaser.Scene, x: integer, y: integer) {
         super(scene, x, y, "player")
 
         scene.physics.add.existing(this)
@@ -49,7 +49,7 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
         this.scene.physics.world.wrap(this, 32)
 
         // bullet spawning
-        if (this.inputManager.isPressed("shoot") && time > this.lastShot + this.fireRate) {
+        if (this.inputManager.isPressed("shoot") && time > this.lastShot + this.fireDelay) {
             this.spawnBullet()
             this.lastShot = time
         }
