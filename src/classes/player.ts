@@ -11,7 +11,7 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
         scene.events.on("update", this.onUpdate, this)
 
         this.cursors = scene.input.keyboard?.createCursorKeys()!
-        this.setScale(0.25, 0.25)
+        this.setScale(0.2, 0.2)
     }
 
     onUpdate() {
@@ -23,8 +23,10 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
         this.rotation = angle
 
         // movement
-        const directionX = (this.cursors.right.isDown ? 1 : 0) - (this.cursors.left.isDown ? 1 : 0)
-        const directionY = (this.cursors.down.isDown ? 1 : 0) - (this.cursors.up.isDown ? 1 : 0)
-        this.setVelocity(directionX * 500, directionY * 500)
+        
+
+        // const directionX = (this.cursors.right.isDown ? 1 : 0) - (this.cursors.left.isDown ? 1 : 0)
+        // const directionY = (this.cursors.down.isDown ? 1 : 0) - (this.cursors.up.isDown ? 1 : 0)
+        // this.setVelocity(directionX * 500, directionY * 500)
     }
 }

@@ -10,9 +10,9 @@ class MainScene extends Phaser.Scene {
         new Player(this, 600, 325)
     }
 
-    // update() {
+    update() {
 
-    // }
+    }
 }
 
 const config = {
