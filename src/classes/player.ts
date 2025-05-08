@@ -1,7 +1,8 @@
 import Phaser from "phaser"
+import { InputManager } from "./input"
 
 export class Player extends Phaser.Physics.Arcade.Sprite {
-    cursors: Phaser.Types.Input.Keyboard.CursorKeys
+    private inputManager: InputManager
 
     constructor(scene: Phaser.Scene, x: number, y: number) {
         super(scene, x, y, "player")
@@ -10,8 +11,17 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
         scene.add.existing(this)
         scene.events.on("update", this.onUpdate, this)
 
-        this.cursors = scene.input.keyboard?.createCursorKeys()!
+        this.inputManager = new InputManager(scene)
+        this.setup()
+    }
+
+    setup() {
         this.setScale(0.2, 0.2)
+        
+        this.inputManager.addAction("left", ["left", "a"])
+        this.inputManager.addAction("right", ["right", "d"])
+        this.inputManager.addAction("up", ["up", "w"])
+        this.inputManager.addAction("down", ["down", "s"])
     }
 
     onUpdate() {
@@ -23,10 +33,8 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
         this.rotation = angle
 
         // movement
-        
-
-        // const directionX = (this.cursors.right.isDown ? 1 : 0) - (this.cursors.left.isDown ? 1 : 0)
-        // const directionY = (this.cursors.down.isDown ? 1 : 0) - (this.cursors.up.isDown ? 1 : 0)
-        // this.setVelocity(directionX * 500, directionY * 500)
+        const directionX = this.inputManager.getInputAxis("right", "left")
+        const directionY = this.inputManager.getInputAxis("down", "up")
+        this.setVelocity(directionX * 500, directionY * 500)
     }
 }
