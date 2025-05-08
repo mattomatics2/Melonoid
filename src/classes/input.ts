@@ -1,4 +1,4 @@
-import Phaser, { Scene } from "phaser"
+import Phaser from "phaser"
 
 export class InputManager {
     private scene: Phaser.Scene
