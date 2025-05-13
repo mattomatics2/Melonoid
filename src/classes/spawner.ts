@@ -7,7 +7,7 @@ export class Spawner {
         this.scene = scene
 
         scene.time.addEvent({
-            delay: 1500,
+            delay: 2500,
             callback: this.spawnMelon,
             callbackScope: this,
             loop: true
