@@ -1,19 +1,22 @@
 import Phaser from "phaser"
 import { InputManager } from "./input"
 import { Bullet } from "./bullet"
+import type { groups } from "../main"
 
 export class Player extends Phaser.Physics.Arcade.Sprite {
     private inputManager: InputManager
     private lastShot: integer = 0
     private fireDelay: integer = 150
+    private groups: groups
 
-    constructor(scene: Phaser.Scene, x: integer, y: integer) {
+    constructor(scene: Phaser.Scene, x: integer, y: integer, groups: groups) {
         super(scene, x, y, "player")
 
         scene.physics.add.existing(this)
         scene.add.existing(this)
         scene.events.on("update", this.onUpdate, this)
         
+        this.groups = groups
         this.inputManager = new InputManager(scene)
         this.setup()
     }
@@ -58,6 +61,7 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
     spawnBullet() {
         const bullet = new Bullet(this.scene, this.x, this.y)
         bullet.rotation = this.rotation
+        this.groups.bullets.add(bullet)
         this.scene.physics.velocityFromRotation(this.rotation, 500, bullet.body?.velocity)
     }
 }

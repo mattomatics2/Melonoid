@@ -2,6 +2,12 @@ import Phaser from "phaser"
 import { Player } from "./classes/player"
 import { Spawner } from "./classes/spawner"
 
+export type groups = {
+    player: Phaser.Physics.Arcade.Group;
+    bullets: Phaser.Physics.Arcade.Group;
+    melons: Phaser.Physics.Arcade.Group;
+}
+
 class MainScene extends Phaser.Scene {
     preload() {
         this.load.image("player", "assets/ship.png")
@@ -10,8 +16,14 @@ class MainScene extends Phaser.Scene {
     }
 
     create() {
-        new Player(this, 600, 325)
-        new Spawner(this)
+        const groups: groups = {
+            player: this.physics.add.group(),
+            bullets: this.physics.add.group(),
+            melons: this.physics.add.group()
+        }
+
+        new Player(this, 600, 325, groups)
+        new Spawner(this, groups)
     }
 
     update() {
