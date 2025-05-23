@@ -16,6 +16,9 @@ class MainScene extends Phaser.Scene {
         this.load.image("player", "assets/ship.png")
         this.load.image("bullet", "assets/bullet.png")
         this.load.image("largeMelon", "assets/large-melon.png")
+        this.load.image("halfMelon", "assets/half-melon.png")
+        this.load.image("smallMelon", "assets/small-melon.png")
+        this.load.image("flash", "assets/flash.png")
     }
 
     create() {
@@ -32,8 +35,13 @@ class MainScene extends Phaser.Scene {
             (melon as Melon).damage();
         })
 
+        // player death
+        this.physics.add.overlap(groups.melons, groups.player, (melon, player) => {
+            console.log("death")
+        })
+
         // create objects
-        new Player(this, 600, 325, groups)
+        new Player(this, groups, 600, 325)
         new Spawner(this, groups)
     }
 
@@ -44,7 +52,7 @@ class MainScene extends Phaser.Scene {
 
 const config = {
     type: Phaser.WEBGL,
-    width: 1200,
+    width: 1100,
     height: 650,
     scene: MainScene,
 

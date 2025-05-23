@@ -10,16 +10,16 @@ export class Spawner {
         this.groups = groups
 
         scene.time.addEvent({
-            delay: 3000,
+            delay: 5000,
             callback: this.spawnMelon,
             callbackScope: this,
             loop: true
         })
+
+        this.spawnMelon()
     }
 
     spawnMelon() {
-        const melon = new Melon(this.scene, -200, -200, 1)
-        this.groups.melons.add(melon)
-        melon.setup()
+        new Melon(this.scene, this.groups, -200, -200, 0)
     }
 }

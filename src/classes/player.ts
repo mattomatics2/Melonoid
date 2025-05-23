@@ -6,10 +6,10 @@ import type { groups } from "../main"
 export class Player extends Phaser.Physics.Arcade.Sprite {
     private inputManager: InputManager
     private lastShot: integer = 0
-    private fireDelay: integer = 150
+    private fireDelay: integer = 100
     private groups: groups
 
-    constructor(scene: Phaser.Scene, x: integer, y: integer, groups: groups) {
+    constructor(scene: Phaser.Scene, groups: groups, x: integer, y: integer) {
         super(scene, x, y, "player")
 
         scene.physics.add.existing(this)
