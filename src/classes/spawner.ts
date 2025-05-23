@@ -10,7 +10,7 @@ export class Spawner {
         this.groups = groups
 
         scene.time.addEvent({
-            delay: 2500,
+            delay: 3000,
             callback: this.spawnMelon,
             callbackScope: this,
             loop: true
@@ -18,12 +18,8 @@ export class Spawner {
     }
 
     spawnMelon() {
-        const melon = new Melon(this.scene, -200, -200)
-        const rotation = Phaser.Math.Between(0, 360)
-        const speed = Phaser.Math.Between(100, 200)
+        const melon = new Melon(this.scene, -200, -200, 1)
         this.groups.melons.add(melon)
-
-        melon.setAngularVelocity(Phaser.Math.Between(-200, 200))
-        this.scene.physics.velocityFromRotation(rotation, speed, melon.body?.velocity)
+        melon.setup()
     }
 }

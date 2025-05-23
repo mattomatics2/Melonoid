@@ -14,6 +14,7 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
 
         scene.physics.add.existing(this)
         scene.add.existing(this)
+        groups.player.add(this)
         scene.events.on("update", this.onUpdate, this)
         
         this.groups = groups

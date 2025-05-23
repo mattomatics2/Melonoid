@@ -1,6 +1,8 @@
 import Phaser from "phaser"
 
 export class Bullet extends Phaser.Physics.Arcade.Sprite {
+    private running: boolean = false
+    
     constructor(scene: Phaser.Scene, x: number, y: number) {
         super(scene, x, y, "bullet")
 
@@ -12,11 +14,21 @@ export class Bullet extends Phaser.Physics.Arcade.Sprite {
     }
 
     onUpdate() {
+        // remove check
+        if (!this.running) {
+            return
+        }
+
         // remove when out of bounds
         const inBounds = Phaser.Geom.Rectangle.Overlaps(this.scene.physics.world.bounds, this.getBounds())
         if (!inBounds) {
-            this.scene.events.removeListener("update", this.onUpdate, this)
-            this.destroy()
+            this.remove()
         }
+    }
+
+    remove() {
+        this.running = false
+        this.scene.events.removeListener("update", this.onUpdate, this)
+        this.destroy()
     }
 }

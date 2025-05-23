@@ -2,6 +2,9 @@ import Phaser from "phaser"
 import { Player } from "./classes/player"
 import { Spawner } from "./classes/spawner"
 
+import type { Bullet } from "./classes/bullet"
+import type { Melon } from "./classes/melon"
+
 export type groups = {
     player: Phaser.Physics.Arcade.Group;
     bullets: Phaser.Physics.Arcade.Group;
@@ -16,18 +19,26 @@ class MainScene extends Phaser.Scene {
     }
 
     create() {
+        // setup collision groups
         const groups: groups = {
             player: this.physics.add.group(),
             bullets: this.physics.add.group(),
             melons: this.physics.add.group()
         }
 
+        // bullet/melon collision
+        this.physics.add.overlap(groups.bullets, groups.melons, (bullet, melon) => {
+            (bullet as Bullet).remove();
+            (melon as Melon).damage();
+        })
+
+        // create objects
         new Player(this, 600, 325, groups)
         new Spawner(this, groups)
     }
 
     update() {
-        console.log(this.game.loop.actualFps)
+        
     }
 }
 
