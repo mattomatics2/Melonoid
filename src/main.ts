@@ -29,6 +29,10 @@ class MainScene extends Phaser.Scene {
             melons: this.physics.add.group()
         }
 
+        // create objects
+        new Player(this, groups, 600, 325)
+        new Spawner(this, groups)
+
         // bullet/melon collision
         this.physics.add.overlap(groups.bullets, groups.melons, (bullet, melon) => {
             (bullet as Bullet).remove();
@@ -37,12 +41,8 @@ class MainScene extends Phaser.Scene {
 
         // player death
         this.physics.add.overlap(groups.melons, groups.player, (melon, player) => {
-            console.log("death")
+            
         })
-
-        // create objects
-        new Player(this, groups, 600, 325)
-        new Spawner(this, groups)
     }
 
     update() {
