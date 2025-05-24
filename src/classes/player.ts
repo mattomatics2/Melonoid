@@ -6,7 +6,7 @@ import type { groups } from "../main"
 export class Player extends Phaser.Physics.Arcade.Sprite {
     private inputManager: InputManager
     private lastShot: integer = 0
-    private fireDelay: integer = 100
+    private fireDelay: integer = 150
     private groups: groups
 
     constructor(scene: Phaser.Scene, groups: groups, x: integer, y: integer) {
@@ -64,5 +64,6 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
         bullet.rotation = this.rotation
         this.groups.bullets.add(bullet)
         this.scene.physics.velocityFromRotation(this.rotation, 500, bullet.body?.velocity)
+        this.scene.sound.play("laserShoot")
     }
 }

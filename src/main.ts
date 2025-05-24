@@ -13,12 +13,17 @@ export type groups = {
 
 class MainScene extends Phaser.Scene {
     preload() {
-        this.load.image("player", "assets/ship.png")
-        this.load.image("bullet", "assets/bullet.png")
-        this.load.image("largeMelon", "assets/large-melon.png")
-        this.load.image("halfMelon", "assets/half-melon.png")
-        this.load.image("smallMelon", "assets/small-melon.png")
-        this.load.image("flash", "assets/flash.png")
+        this.load.image("player", "images/ship.png")
+        this.load.image("bullet", "images/bullet.png")
+        this.load.image("largeMelon", "images/large-melon.png")
+        this.load.image("halfMelon", "images/half-melon.png")
+        this.load.image("smallMelon", "images/small-melon.png")
+        this.load.image("flash", "images/flash.png")
+
+        this.load.audio("largeExplosion", "sounds/large-explosion.wav")
+        this.load.audio("smallExplosion", "sounds/small-explosion.wav")
+        this.load.audio("melonHit", "sounds/melon-hit.wav")
+        this.load.audio("laserShoot", "sounds/laser-shoot.wav")
     }
 
     create() {

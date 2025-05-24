@@ -20,6 +20,6 @@ export class Spawner {
     }
 
     spawnMelon() {
-        new Melon(this.scene, this.groups, -200, -200, 0)
+        new Melon(this.scene, this.groups, -150, -150, 0)
     }
 }

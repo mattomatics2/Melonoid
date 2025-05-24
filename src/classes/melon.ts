@@ -7,10 +7,10 @@ import type { groups } from "../main"
 //     2: "smallMelon"
 // }
 
-const phases: Record<number, [string, number]> = {
-    0: ["largeMelon", 150],
-    1: ["halfMelon", 100],
-    2: ["smallMelon", 50]
+const phases: Record<number, [string, number, string]> = {
+    0: ["largeMelon", 150, "largeExplosion"],
+    1: ["halfMelon", 100, "smallExplosion"],
+    2: ["smallMelon", 50, "smallExplosion"]
 }
 
 export class Melon extends Phaser.Physics.Arcade.Sprite {
@@ -51,35 +51,36 @@ export class Melon extends Phaser.Physics.Arcade.Sprite {
     }
 
     damage() {
-        // flash effect
+        // flash/sound
         this.setTintFill(0xc9c9c9)
         setTimeout(() => this.clearTint(), 10)
+        this.scene.sound.play("melonHit")
 
         // on death
         this.health -= 20
-        if (this.health <= 0) {
-            // new phase
-            const nextPhase = this.phase + 1
-            if (phases[nextPhase]) {
-                console.log(phases[nextPhase])
-
-                // spawn more than one melon
-                for (let x = 0; x <= nextPhase; x++) {
-                    new Melon(this.scene, this.groups, this.x, this.y, nextPhase)
-                }
-            }
-
-            // flash
-            const flash = new Phaser.Physics.Arcade.Sprite(this.scene, this.x, this.y, "flash")
-            this.scene.add.existing(flash)
-
-            flash.setAlpha(0.5)
-            setTimeout(() => flash.destroy(), 50)
-
-            // destroy/shake
-            this.scene.cameras.main.shake(125, 0.01)
-            this.remove()
+        if (this.health > 0) {
+            return
         }
+
+        // flash
+        const flash = new Phaser.Physics.Arcade.Sprite(this.scene, this.x, this.y, "flash")
+        flash.setAlpha(0.5)
+        this.scene.add.existing(flash)
+        setTimeout(() => flash.destroy(), 50)
+
+        // new phase
+        const nextPhase = this.phase + 1
+        if (phases[nextPhase]) {
+            // spawn new melons
+            for (let x = 0; x <= nextPhase; x++) {
+                new Melon(this.scene, this.groups, this.x, this.y, nextPhase)
+            }
+        }
+
+        // destroy effects
+        this.scene.sound.play(phases[this.phase][2])
+        this.scene.cameras.main.shake(125, 0.01)
+        this.remove()
     }
 
     remove() {
