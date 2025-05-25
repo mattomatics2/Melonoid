@@ -1,5 +1,5 @@
 import { Melon } from "./melon"
-import type { groups } from "../main"
+import type { groups } from "../scenes/battle"
 
 export class Spawner {
     private scene: Phaser.Scene
@@ -19,7 +19,7 @@ export class Spawner {
         this.spawnMelon()
     }
 
-    spawnMelon() {
+    spawnMelon(): void {
         new Melon(this.scene, this.groups, -150, -150, 0)
     }
 }

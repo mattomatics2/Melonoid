@@ -1,13 +1,16 @@
 import Phaser from "phaser"
 import { InputManager } from "./input"
 import { Bullet } from "./bullet"
-import type { groups } from "../main"
+import { Flash } from "./flash"
+
+import type { groups } from "../scenes/battle"
 
 export class Player extends Phaser.Physics.Arcade.Sprite {
     private inputManager: InputManager
     private lastShot: integer = 0
     private fireDelay: integer = 150
     private groups: groups
+    immune: boolean = false
 
     constructor(scene: Phaser.Scene, groups: groups, x: integer, y: integer) {
         super(scene, x, y, "player")
@@ -15,14 +18,13 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
         scene.physics.add.existing(this)
         scene.add.existing(this)
         groups.player.add(this)
-        scene.events.on("update", this.onUpdate, this)
         
         this.groups = groups
         this.inputManager = new InputManager(scene)
         this.setup()
     }
 
-    setup() {
+    setup(): void {
         // properties
         this.setScale(0.2, 0.2)
         this.setDrag(50)
@@ -36,7 +38,30 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
         this.inputManager.setAction("shoot", ["space"])
     }
 
-    onUpdate(time: number) {
+    kill(): void {
+        // only damage once
+        if (this.immune) {
+            return
+        }
+
+        this.immune = true
+        this.setVisible(false)
+
+        // visuals
+        const explosion = this.scene.add.sprite(this.x, this.y, "playerExplosion")
+        explosion.setScale(2)
+        explosion.play("playerExplosion")
+
+        new Flash(this.scene, this.x, this.y, 1.25)
+        this.scene.sound.play("boom")
+        this.scene.cameras.main.shake(350, 0.02)
+
+        // shop scene
+        setTimeout(() => this.scene.cameras.main.fadeOut(1000), 5000)
+        setTimeout(() => this.scene.scene.start("Shop"), 6500)
+    }
+
+    protected preUpdate(time: number): void {
         // rotation
         const mouseX = this.scene.input.mousePointer.x
         const mouseY = this.scene.input.mousePointer.y
@@ -59,7 +84,7 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
         }
     }
 
-    spawnBullet() {
+    protected spawnBullet(): void {
         const bullet = new Bullet(this.scene, this.x, this.y)
         bullet.rotation = this.rotation
         this.groups.bullets.add(bullet)
