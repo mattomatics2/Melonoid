@@ -6,7 +6,7 @@ export class Flash extends Phaser.Physics.Arcade.Sprite {
         this.flash()
     }
 
-    flash() {
+    protected flash() {
         this.scene.add.existing(this)
         setTimeout(() => this.destroy(), 50)
     }

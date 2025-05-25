@@ -39,7 +39,7 @@ export class BattleScene extends Phaser.Scene {
 
     create() {
         // fade in the scene
-        this.cameras.main.fadeIn(1000)
+        this.cameras.main.fadeIn(750)
 
         // animations
         this.anims.create({
@@ -73,14 +73,10 @@ export class BattleScene extends Phaser.Scene {
             const player = col1 as Player
             const melon = col2 as Melon
             
-            if (!player.immune) {
+            if (!player.disabled) {
                 player.kill()
                 melon.explosion()
             }
         })
-    }
-
-    update() {
-        
     }
 }

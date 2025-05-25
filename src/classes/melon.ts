@@ -1,5 +1,6 @@
 import Phaser from "phaser"
 import { Flash } from "./flash"
+import { GameState } from "./globals"
 
 import type { groups } from "../scenes/battle"
 
@@ -17,21 +18,32 @@ export class Melon extends Phaser.Physics.Arcade.Sprite {
     constructor(scene: Phaser.Scene, groups: groups, x: integer, y: integer, phase: integer) {
         super(scene, x, y, phases[phase][0])
         
+        // add sprite to scene
         groups.melons.add(this)
         scene.physics.add.existing(this)
         scene.add.existing(this)
 
+        // variables/setup
         this.health = phases[phase][1]
         this.phase = phase
         this.groups = groups
         this.setup()
     }
 
-    setup(): void {
+    protected setup(): void {
+        // properties
+        this.setDepth(4)
+
+        // random rot/speed
         const rotation = Phaser.Math.Between(0, 360)
         const speed = Phaser.Math.Between(100, 200)
         this.setAngularVelocity(Phaser.Math.Between(-200, 200))
         this.scene.physics.velocityFromRotation(rotation, speed, this.body?.velocity)
+    }
+
+    protected preUpdate(): void {
+        // wrapping
+        this.scene.physics.world.wrap(this, 125)
     }
 
     damage(): void {
@@ -41,7 +53,7 @@ export class Melon extends Phaser.Physics.Arcade.Sprite {
         this.scene.sound.play("melonHit")
 
         // on death
-        this.health -= 20
+        this.health -= GameState.fireDamage
         if (this.health > 0) {
             return
         }
@@ -65,10 +77,5 @@ export class Melon extends Phaser.Physics.Arcade.Sprite {
         this.scene.sound.play(phases[this.phase][2])
         this.scene.cameras.main.shake(125, 0.01)
         this.destroy()
-    }
-
-    protected preUpdate(): void {
-        // wrapping
-        this.scene.physics.world.wrap(this, 125)
     }
 }

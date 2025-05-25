@@ -1,4 +1,5 @@
 import { Melon } from "./melon"
+import { GameState } from "./globals"
 import type { groups } from "../scenes/battle"
 
 export class Spawner {
@@ -10,7 +11,7 @@ export class Spawner {
         this.groups = groups
 
         scene.time.addEvent({
-            delay: 5000,
+            delay: GameState.melonFrequency,
             callback: this.spawnMelon,
             callbackScope: this,
             loop: true
