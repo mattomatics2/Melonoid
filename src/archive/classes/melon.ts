@@ -49,7 +49,7 @@ export class Melon extends Phaser.Physics.Arcade.Sprite {
     damage(): void {
         // flash/sound
         this.setTintFill(0xc9c9c9)
-        setTimeout(() => this.clearTint(), 10)
+        setTimeout(() => this.clearTint(), 15)
         this.scene.sound.play("melonHit")
 
         // on death

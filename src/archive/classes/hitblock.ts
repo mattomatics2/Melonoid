@@ -54,9 +54,6 @@ export class HitBlock extends Phaser.Physics.Arcade.Sprite {
 
         this.priceLabel.setOrigin(0.5, 0.5)
         this.priceLabel.setDepth(4)
-
-        // particles
-
     }
 
     protected setupLabels(): void {
@@ -84,7 +81,7 @@ export class HitBlock extends Phaser.Physics.Arcade.Sprite {
         setTimeout(() => {
             this.clearTint()
             if (this.purchased) this.setTint(0x88ff88)
-        }, 10)
+        }, 15)
     }
 
     hit(): void {

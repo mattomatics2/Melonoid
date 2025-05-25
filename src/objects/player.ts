@@ -1,38 +1,38 @@
-import Phaser from "phaser"
 import { InputManager } from "./input"
+import { Globals } from "../globals"
 import { Bullet } from "./bullet"
-import { Flash } from "./flash"
-import { GameState } from "./globals"
-
-import type { groups } from "../scenes/battle"
+import { Flash } from "../effects/flash"
+import type { groups } from "../types"
 
 export class Player extends Phaser.Physics.Arcade.Sprite {
     private inputManager: InputManager
-    private lastShot: integer = 0
     private groups: groups
-    disabled: boolean = false
+    private lastShot = 0
+
+    speed = 1500
+    enableWrapping = true
+    eventEmitter = new Phaser.Events.EventEmitter()
 
     constructor(scene: Phaser.Scene, groups: groups, x: integer, y: integer) {
         super(scene, x, y, "player")
 
-        // add sprite to scene
-        scene.physics.add.existing(this)
-        scene.add.existing(this)
-        groups.player.add(this)
-        
-        // variables/setup
-        this.groups = groups
         this.inputManager = new InputManager(scene)
+        this.groups = groups
         this.setup()
     }
 
     protected setup(): void {
-        // properties
+        // add sprite to scene
+        this.scene.physics.add.existing(this)
+        this.scene.add.existing(this)
+        this.groups.player.add(this)
+
+        // sprite properties
         this.setScale(0.2, 0.2)
         this.setDrag(50)
         this.setMaxVelocity(500, 500)
         this.setDepth(5)
-        
+
         // inputs
         this.inputManager.setAction("left", ["left", "a"])
         this.inputManager.setAction("right", ["right", "d"])
@@ -45,36 +45,44 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
         // rotation
         const mouseX = this.scene.input.mousePointer.x
         const mouseY = this.scene.input.mousePointer.y
-
         const angle = Phaser.Math.Angle.Between(this.x, this.y, mouseX, mouseY)
         this.rotation = angle
-        
+
         // movement
         const directionX = this.inputManager.getInputAxis("right", "left")
         const directionY = this.inputManager.getInputAxis("down", "up")
-        this.setAcceleration(directionX * 1500, directionY * 1500)
+        this.setAcceleration(directionX * this.speed, directionY * this.speed)
 
-        // wrapping
-        this.scene.physics.world.wrap(this, 32)
-
-        // bullet spawning
-        if (this.inputManager.isPressed("shoot") && time > this.lastShot + GameState.fireRate) {
+        // shooting
+        if (this.inputManager.isPressed("shoot") && time > this.lastShot + Globals.fireDelay) {
             this.spawnBullets()
             this.lastShot = time
+        }
+
+        // wrapping
+        if (this.enableWrapping) {
+            this.scene.physics.world.wrap(this, 50)
+        }
+
+        // bounds
+        const inBounds = Phaser.Geom.Rectangle.Overlaps(this.scene.physics.world.bounds, this.getBounds())
+        if (!inBounds) {
+            this.eventEmitter.emit("OutOfBounds")
         }
     }
 
     protected spawnBullets(): void {
-        const fireCount = GameState.fireCount
+        const fireCount = Globals.fireCount
         const angleSpread = Phaser.Math.DegToRad(15)
         const baseAngle = this.rotation
 
-        for (let i = 0; i < fireCount; i++) {
+        for (let i = 0; i < fireCount; i ++) {
             const offset = angleSpread * (i - (fireCount - 1) / 2)
             const angle = baseAngle + offset
-            
+
             const bullet = new Bullet(this.scene, this.x, this.y)
             bullet.rotation = angle
+
             this.groups.bullets.add(bullet)
             this.scene.physics.velocityFromRotation(angle, 500, bullet.body?.velocity)
         }
@@ -82,27 +90,23 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
         this.scene.sound.play("laserShoot")
     }
 
-    kill(): void {
-        // only damage once
-        if (this.disabled) {
-            return
-        }
-
-        this.disabled = true
-        this.disableBody(true, true)
-        this.disableInteractive()
-
-        // visuals
-        const explosion = this.scene.add.sprite(this.x, this.y, "playerExplosion")
+    explode(): void {
+        // explosion
+        const explosion = this.scene.add.sprite(this.x, this.y, "explosion")
         explosion.setScale(2)
-        explosion.play("playerExplosion")
+        explosion.play("explosion")
 
+        // flash
         new Flash(this.scene, this.x, this.y, 1.25)
         this.scene.sound.play("boom")
         this.scene.cameras.main.shake(350, 0.02)
 
         // shop scene
-        setTimeout(() => this.scene.cameras.main.fadeOut(1000), 5000)
-        setTimeout(() => this.scene.scene.start("Shop"), 6500)
+        const scene = this.scene
+        this.scene.time.delayedCall(5000, () => scene.cameras.main.fadeOut(1000))
+        this.scene.time.delayedCall(6500, () => scene.scene.start("Shop"))
+
+        // remove player
+        this.destroy()
     }
 }

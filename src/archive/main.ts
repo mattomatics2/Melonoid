@@ -7,7 +7,11 @@ const config = {
     width: 1100,
     height: 650,
     scene: [BattleScene, ShopScene],
-    scale: {mode: Phaser.Scale.FIT},
+
+    scale: {
+        mode: Phaser.Scale.FIT,
+        autoCenter: Phaser.Scale.CENTER_BOTH
+    },
 
     physics: {
         default: "arcade",
