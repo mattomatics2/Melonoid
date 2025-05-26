@@ -41,12 +41,14 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
         this.inputManager.setAction("shoot", ["space"])
     }
 
-    protected preUpdate(time: number): void {
+    protected preUpdate(time: number, delta: number): void {
         // rotation
-        const mouseX = this.scene.input.mousePointer.x
-        const mouseY = this.scene.input.mousePointer.y
-        const angle = Phaser.Math.Angle.Between(this.x, this.y, mouseX, mouseY)
-        this.rotation = angle
+        const mouseX = this.scene.input.activePointer.x
+        const mouseY = this.scene.input.activePointer.y
+        const worldPoint = this.scene.cameras.main.getWorldPoint(mouseX, mouseY)
+        
+        const angle = Phaser.Math.Angle.Between(this.x, this.y, worldPoint.x, worldPoint.y)
+        this.rotation = Phaser.Math.Angle.RotateTo(this.rotation, angle, 15 * (delta / 1000))
 
         // movement
         const directionX = this.inputManager.getInputAxis("right", "left")
