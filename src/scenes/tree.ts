@@ -1,4 +1,5 @@
 import { Player } from "../objects/player"
+import { Unlock } from "../objects/unlock"
 import type { groups } from "../types"
 
 export class UpgradeTree extends Phaser.Scene {
@@ -16,7 +17,7 @@ export class UpgradeTree extends Phaser.Scene {
         this.load.audio("laserShoot", "sounds/laser-shoot.wav")
         this.load.audio("melonHit", "sounds/melon-hit.wav")
         this.load.audio("blockHit", "sounds/block-hit.wav")
-    }
+    }   
 
     protected create(): void {
         // collision groups
@@ -30,25 +31,27 @@ export class UpgradeTree extends Phaser.Scene {
         player.enableWrapping = false
 
         this.cameras.main.startFollow(player)
-        this.cameras.main.setBounds(-500, -500, 2000, 2000)
-        // this.cameras.main.setLerp(0.1, 0.1)
+        this.cameras.main.setBounds(-200, -500, 1500, 1000)
 
         // test upgrade item
-        const item = this.add.sprite(200, 200, "unlockblock")
-        item.setScale(0.4)
-        item.setOrigin(0.5, 0.5)
+        const item = new Unlock(this, 200, 300)
 
-        // test label
-        const title = this.add.text(200, 200, "Pierce III", {
-            fontFamily: "Verdana",
-            fontSize: "20px",
-            fontStyle: "bold",
-            stroke: "black",
-            strokeThickness: 5,
-            wordWrap: {width: 1},
-            align: "center"
-        })
+        // // test upgrade item
+        // const item = this.add.sprite(200, 200, "unlockblock")
+        // item.setScale(0.4)
+        // item.setOrigin(0.5, 0.5)
 
-        title.setOrigin(0.5, 0.5)
+        // // test label
+        // const title = this.add.text(200, 200, "Pierce III", {
+        //     fontFamily: "Verdana",
+        //     fontSize: "20px",
+        //     fontStyle: "bold",
+        //     stroke: "black",
+        //     strokeThickness: 5,
+        //     wordWrap: {width: 1},
+        //     align: "center"
+        // })
+
+        // title.setOrigin(0.5, 0.5)
     }
 }

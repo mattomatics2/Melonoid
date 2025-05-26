@@ -1,5 +1,12 @@
 import { Globals } from "../globals"
-import type { groups, hitblock } from "../types";
+import type { groups } from "../types";
+
+type hitblock = {
+    title: string,
+    subtitle: string,
+    price: integer,
+    handler: () => void
+}
 
 export class Hitblock extends Phaser.Physics.Arcade.Sprite {
     private label: Phaser.GameObjects.Text

@@ -12,11 +12,4 @@ export type phase = {
     reward: integer
 }
 
-export type hitblock = {
-    title: string,
-    subtitle: string,
-    price: integer,
-    handler: () => void
-}
-
 export type phases = Record<number, phase>
