@@ -7,8 +7,8 @@ const config = {
     type: Phaser.WEBGL,
     width: 1100,
     height: 650,
-    scene: [BattleScene, ShopScene],
-    // scene: [UpgradeTree],
+    // scene: [BattleScene, ShopScene, UpgradeTree],
+    scene: [UpgradeTree],
     scale: {mode: Phaser.Scale.FIT},
 
     physics: {
