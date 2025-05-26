@@ -8,7 +8,8 @@ export type phase = {
     sprite: string,
     deathSound: string,
     health: integer,
-    flashSize: integer
+    flashSize: integer,
+    reward: integer
 }
 
 export type hitblock = {

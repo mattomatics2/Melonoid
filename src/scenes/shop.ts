@@ -1,6 +1,7 @@
 import { Player } from "../objects/player"
 import { Globals } from "../globals"
 import { Hitblock } from "../objects/hitblock"
+import { Notifier } from "../effects/notifier"
 import type { groups } from "../types"
 import type { Bullet } from "../objects/bullet"
 
@@ -45,7 +46,7 @@ export class ShopScene extends Phaser.Scene {
         this.setupUpgrades(groups, cashLabel)
 
         // create objects
-        const player = new Player(this, groups, 600, 325)
+        const player = new Player(this, groups, 550, 325)
         player.enableWrapping = false
 
         player.eventEmitter.on("OutOfBounds", () => {
@@ -53,6 +54,10 @@ export class ShopScene extends Phaser.Scene {
             this.cameras.main.fadeOut(500)
             this.time.delayedCall(600, () => this.scene.start("Battle"))
         })
+
+        // notifier
+        const notifier = new Notifier(this)
+        notifier.playOnce("tutorial2", "Purchase upgrades by shooting on them. Return to battle by leaving the screen.")
     }
 
     protected setupCollisions(groups: groups): void {

@@ -5,13 +5,13 @@ export const Globals = {
     fireDamage: 10,
     fireCount: 1,
 
-    fireCountCost: 250,
-    fireDelayCost: 50,
-    fireDamageCost: 100,
+    fireCountCost: 160,
+    fireDelayCost: 25,
+    fireDamageCost: 50,
 
-    melonFrequency: 2000,
+    melonFrequency: 2500,
     score: 0,
-    cash: 999
+    cash: 10
 }
 
 export const Phases: phases = {
@@ -19,20 +19,23 @@ export const Phases: phases = {
         sprite: "largeMelon",
         deathSound: "largeExplosion",
         health: 150,
-        flashSize: 2
+        flashSize: 2,
+        reward: 10
     },
 
     1: {
         sprite: "halfMelon",
         deathSound: "smallExplosion",
         health: 100,
-        flashSize: 1.5
+        flashSize: 1.5,
+        reward: 5
     },
 
     2: {
         sprite: "smallMelon",
         deathSound: "smallExplosion",
         health: 50,
-        flashSize: 1
+        flashSize: 1,
+        reward: 2
     },
 }

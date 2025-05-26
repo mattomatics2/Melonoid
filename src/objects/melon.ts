@@ -1,6 +1,7 @@
 import { Phases } from "../globals"
-import { Flash } from "../effects/flash"
 import { Globals } from "../globals"
+import { Flash } from "../effects/flash"
+import { Billboard } from "../effects/billboard"
 import type { groups } from "../types"
 
 export class Melon extends Phaser.Physics.Arcade.Sprite {
@@ -62,6 +63,9 @@ export class Melon extends Phaser.Physics.Arcade.Sprite {
         }
 
         // explosion effects
+        const reward = Phases[this.phase].reward
+        new Billboard(this.scene, this.x, this.y, `$${reward}`)
+        Globals.cash += reward
         this.explode()
     }
 

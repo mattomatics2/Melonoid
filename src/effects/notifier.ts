@@ -11,34 +11,40 @@ export class Notifier extends Phaser.GameObjects.Container {
             fontSize: "16px",
             color: "#ffffff",
             padding: {x: 10, y: 10},
-            wordWrap: {width: 400},
+            wordWrap: {width: 300},
             lineSpacing: 5
         })
 
         this.background = scene.add.graphics()
-
-        this.setDepth(10)
-        this.add([this.background, this.text])
-        scene.add.existing(this)
+        this.setup()
     }
 
-    play(message: string) {
+    protected setup(): void {
+        // properties
+        this.setDepth(10)
+
+        // add sprite to scene
+        this.add([this.background, this.text])
+        this.scene.add.existing(this)
+    }
+
+    play(message: string): void {
         // text contents
         this.text.setText(message)
         this.background.clear()
         this.background.fillStyle(0x333333, 0.9)
         this.background.fillRect(0, 0, this.text.width, this.text.height)
 
-        // setup for animations
+        // setup
         this.setX(-this.width)
         this.setAlpha(0)
-    
+
         // tween in
         this.scene.tweens.add({
             targets: this,
             x: 15,
             alpha: 1,
-            ease: "Sine.easeOut",
+            ease: Phaser.Math.Easing.Sine.Out,
             duration: 500
         })
 
@@ -48,13 +54,13 @@ export class Notifier extends Phaser.GameObjects.Container {
                 targets: this,
                 x: -this.width,
                 alpha: 0,
-                ease: "Sine.easeIn",
+                ease: Phaser.Math.Easing.Sine.In,
                 duration: 500
             })
         })
     }
 
-    playOnce(key: string, message: string) {
+    playOnce(key: string, message: string): void {
         if (playedNotifs[key]) {
             return
         }

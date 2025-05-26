@@ -1,5 +1,6 @@
 import { Player } from "../objects/player"
 import { Spawner } from "../objects/spawner"
+import { Notifier } from "../effects/notifier"
 import type { Bullet } from "../objects/bullet"
 import type { Melon } from "../objects/melon"
 import type { groups } from "../types"
@@ -46,10 +47,15 @@ export class BattleScene extends Phaser.Scene {
         }
 
         this.setupCollisions(groups)
+        this.cameras.main.fadeIn(500)
 
         // create objects
-        new Player(this, groups, 600, 325)
+        new Player(this, groups, 550, 325)
         new Spawner(this, groups)
+
+        // notifier
+        const notifier = new Notifier(this)
+        notifier.playOnce("tutorial1", "Shoot melons by holding [Space] on your keyboard.")
     }
 
     protected setupCollisions(groups: groups): void {
