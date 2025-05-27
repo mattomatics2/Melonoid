@@ -1,29 +1,43 @@
-import type { groups } from "../types"
+import { SavedUnlocks } from "../globals"
+import type { groups, unlock } from "../types"
+
+type config = {
+    name: string,
+    info: unlock,
+    connections: Record<string, Unlock>
+}
 
 export class Unlock extends Phaser.GameObjects.Container {
-    private sprite: Phaser.GameObjects.Sprite
     private label: Phaser.GameObjects.Text
     private groups: groups
-    private startX: integer
-    private startY: integer
+    private startPos: Phaser.Math.Vector2
 
-    constructor(scene: Phaser.Scene, groups: groups, x: integer, y: integer, name: string) {
+    private health = 5
+    private unlocked = false
+
+    sprite: Phaser.GameObjects.Sprite
+    config: config
+
+    constructor(scene: Phaser.Scene, groups: groups, x: integer, y: integer, config: config) {
         super(scene, x, y)
 
-        this.label = scene.add.text(0, 0, name, {
+        this.label = scene.add.text(0, 0, config.name, {
             fontFamily: "Verdana",
             fontSize: "20px",
             fontStyle: "bold",
             stroke: "black",
             strokeThickness: 5,
-            wordWrap: { width: 1 },
+            wordWrap: {width: 1},
             align: "center"
         })
 
-        this.startX = x
-        this.startY = y
-        this.groups = groups
         this.sprite = scene.add.sprite(0, 0, "unlockblock")
+        this.startPos = new Phaser.Math.Vector2(x, y)
+
+        this.config = config
+        this.name = config.name
+        this.groups = groups
+
         this.setup()
     }
 
@@ -35,25 +49,27 @@ export class Unlock extends Phaser.GameObjects.Container {
 
         // add children to container
         this.add([this.sprite, this.label])
-        this.setupFloating()
+        this.setupAnim()
+        this.update()
 
         // add container to scene
         this.scene.add.existing(this)
         this.groups.enemies.add(this)
     }
 
-    protected setupFloating(): void {
-        const phase = Phaser.Math.FloatBetween(0, Math.PI * 2)
-        const radius = 4
+    protected setupAnim(): void {
+        // get random rotation seed
+        const seed = Phaser.Math.FloatBetween(0, Math.PI * 2)
+        const radius = 15
 
-        // move sprite around randomly
+        // drift sprite around
         this.scene.time.addEvent({
             delay: 16,
             loop: true,
             callback: () => {
                 const t = this.scene.time.now / 1000
-                this.x = this.startX + Math.cos(t + phase) * radius
-                this.y = this.startY + Math.sin(t + phase) * radius
+                this.x = this.startPos.x + Math.cos(t + seed) * radius
+                this.y = this.startPos.y + Math.sin(t + seed) * radius
             }
         })
     }
@@ -71,13 +87,72 @@ export class Unlock extends Phaser.GameObjects.Container {
     }
 
     protected flash(): void {
+        // flash the sprite white
         this.sprite.setTintFill(0xc9c9c9)
-        this.scene.time.delayedCall(20, () => this.sprite.clearTint())
+
+        // reset to default tint
+        this.scene.time.delayedCall(20, () => {
+            this.sprite.clearTint()
+            if (this.unlocked) this.sprite.setTint(0x66ff54)
+        })
+    }
+
+    update(): void {
+        // dimming
+        const hasRequirement = SavedUnlocks.includes(this.config.info.requirement)
+        this.setAlpha(hasRequirement ? 1 : 0.5)
+
+        // unlocked
+        if (SavedUnlocks.includes(this.name)) {
+            this.unlock()
+        }
+    }
+
+    unlock(): void {
+        this.unlocked = true
+        this.sprite.setTint(0x66ff54)
     }
 
     damage(): void {
+        // visuals
+        this.scene.sound.play("blockHit")
         this.bounce()
         this.flash()
-        this.scene.sound.play("blockHit")
+        
+        // validate unlockability
+        const hasRequirement = SavedUnlocks.includes(this.config.info.requirement)
+        const canUnlock = hasRequirement && !this.unlocked
+        if (!canUnlock) {
+            // can't unlock
+            this.scene.sound.play("error")
+            return
+        }
     }
 }
+
+// export class Unlock extends Phaser.GameObjects.Container {
+//     damage(): void {
+//         // visuals/audio
+//         this.bounce()
+//         this.flash()
+//         this.scene.sound.play("blockHit")
+
+//         // validation
+//         const hasRequirement = SavedUnlocks.includes(this.config.info.requirement)
+//         const canUnlock = hasRequirement && !this.unlocked 
+//         if (!canUnlock) {
+//             // can't unlock
+//             this.scene.sound.play("error")
+//             return
+//         }
+        
+//         // purchasing
+//         this.health --
+//         if (this.health <= 1) {
+//             // unlock
+//             this.scene.sound.play("purchase")
+//             SavedUnlocks.push(this.name)    
+//             this.unlock()
+//         }
+//     }
+// }

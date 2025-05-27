@@ -9,7 +9,6 @@ export const Globals = {
     fireDelayCost: 25,
     fireDamageCost: 50,
 
-    // melonFrequency: 2500,
     melonFrequency: 1000,
     score: 0,
     cash: 10
@@ -40,3 +39,5 @@ export const Phases: phases = {
         reward: 2
     },
 }
+
+export const SavedUnlocks = [""]

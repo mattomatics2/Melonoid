@@ -7,7 +7,8 @@ export type groups = {
 export type unlock = {
     x: integer,
     y: integer,
-    requirement: string
+    requirement: string,
+    unlock: () => void
 }
 
 export type phase = {
@@ -18,5 +19,6 @@ export type phase = {
     reward: integer
 }
 
+export type savedUnlocks = Array<string>
 export type phases = Record<number, phase>
 export type unlocks = Record<string, unlock>

@@ -22,6 +22,7 @@ export class Notifier extends Phaser.GameObjects.Container {
     protected setup(): void {
         // properties
         this.setDepth(10)
+        this.setScrollFactor(0)
 
         // add sprite to scene
         this.add([this.background, this.text])
