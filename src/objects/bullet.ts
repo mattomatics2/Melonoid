@@ -15,7 +15,11 @@ export class Bullet extends Phaser.Physics.Arcade.Sprite {
 
     protected preUpdate(): void {
         // remove when out of bounds
-        const inBounds = Phaser.Geom.Rectangle.Overlaps(this.scene.physics.world.bounds, this.getBounds())
+        const camera = this.scene.cameras.main
+        const cameraView = camera.worldView
+        const bulletBounds = this.getBounds()
+
+        const inBounds = Phaser.Geom.Intersects.RectangleToRectangle(cameraView, bulletBounds)
         if (!inBounds) {
             this.destroy()
         }

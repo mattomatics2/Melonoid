@@ -4,6 +4,12 @@ export type groups = {
     enemies: Phaser.Physics.Arcade.Group
 }
 
+export type unlock = {
+    x: integer,
+    y: integer,
+    requirement: string
+}
+
 export type phase = {
     sprite: string,
     deathSound: string,
@@ -13,3 +19,4 @@ export type phase = {
 }
 
 export type phases = Record<number, phase>
+export type unlocks = Record<string, unlock>

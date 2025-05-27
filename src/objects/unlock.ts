@@ -1,5 +1,4 @@
 import type { groups } from "../types"
-import type { Bullet } from "./bullet"
 
 export class Unlock extends Phaser.GameObjects.Container {
     private sprite: Phaser.GameObjects.Sprite
@@ -8,10 +7,10 @@ export class Unlock extends Phaser.GameObjects.Container {
     private startX: integer
     private startY: integer
 
-    constructor(scene: Phaser.Scene, groups: groups, x: integer, y: integer) {
+    constructor(scene: Phaser.Scene, groups: groups, x: integer, y: integer, name: string) {
         super(scene, x, y)
 
-        this.label = scene.add.text(0, 0, "Pierce III", {
+        this.label = scene.add.text(0, 0, name, {
             fontFamily: "Verdana",
             fontSize: "20px",
             fontStyle: "bold",
@@ -36,27 +35,36 @@ export class Unlock extends Phaser.GameObjects.Container {
 
         // add children to container
         this.add([this.sprite, this.label])
+        this.setupFloating()
 
         // add container to scene
         this.scene.add.existing(this)
         this.groups.enemies.add(this)
     }
 
-    protected bounce(rotation: number): void {
-        // bounce the sprite backwards
-        const nx = Math.cos(rotation)
-        const ny = Math.sin(rotation)
+    protected setupFloating(): void {
+        const phase = Phaser.Math.FloatBetween(0, Math.PI * 2)
+        const radius = 4
 
-        const outX = this.x + nx * 10
-        const outY = this.y + ny * 10
-        this.setPosition(outX, outY)
+        // move sprite around randomly
+        this.scene.time.addEvent({
+            delay: 16,
+            loop: true,
+            callback: () => {
+                const t = this.scene.time.now / 1000
+                this.x = this.startX + Math.cos(t + phase) * radius
+                this.y = this.startY + Math.sin(t + phase) * radius
+            }
+        })
+    }
+
+    protected bounce(): void {
+        // change the sprite size
         this.setScale(1.2)
 
-        // tween to original position
+        // tween to original size
         this.scene.tweens.add({
             targets: this,
-            x: this.startX,
-            y: this.startY,
             scale: 1,
             duration: 100
         })
@@ -67,8 +75,8 @@ export class Unlock extends Phaser.GameObjects.Container {
         this.scene.time.delayedCall(20, () => this.sprite.clearTint())
     }
 
-    damage(bulletRot: number): void {
-        this.bounce(bulletRot)
+    damage(): void {
+        this.bounce()
         this.flash()
         this.scene.sound.play("blockHit")
     }

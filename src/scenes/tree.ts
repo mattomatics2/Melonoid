@@ -1,6 +1,7 @@
 import { Player } from "../objects/player"
 import { Unlock } from "../objects/unlock"
 import { Bullet } from "../objects/bullet"
+import { treeData } from "../data/unlocks"
 import type { groups } from "../types"
 
 export class UpgradeTree extends Phaser.Scene {
@@ -30,21 +31,30 @@ export class UpgradeTree extends Phaser.Scene {
 
         const player = new Player(this, groups, 550, 325)
         player.enableWrapping = false
-
-        this.cameras.main.startFollow(player)
-        this.cameras.main.setBounds(-200, -500, 1500, 1000)
         this.setupCollisions(groups)
 
-        // test upgrade item
-        const item = new Unlock(this, groups, 200, 300)
+        // camera setup
+        this.cameras.main.startFollow(player)
+        this.cameras.main.setBounds(-200, -500, 1500, 1000)
+        this.cameras.main.setDeadzone(100, 100)
+        this.cameras.main.setLerp(0.02, 0.02) 
+
+        // upgrade items
+        for (const name in treeData) {
+            const data = treeData[name]
+
+            const posX = (data.x * 200) + 550
+            const posY = (data.y * 200) + 150
+
+            new Unlock(this, groups, posX, posY, name)
+        }
     }
 
     protected setupCollisions(groups: groups): void {
         // bullet/unlock
         this.physics.add.overlap(groups.bullets, groups.enemies, (bullet, unlock) => {
-            const typedBullet = bullet as Bullet
-            typedBullet.destroy();
-            (unlock as Unlock).damage(typedBullet.rotation);
+            (bullet as Bullet).destroy();
+            (unlock as Unlock).damage();
         })
     }
 }
