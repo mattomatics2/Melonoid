@@ -1,5 +1,6 @@
 import { Player } from "../objects/player"
 import { Unlock } from "../objects/unlock"
+import { Bullet } from "../objects/bullet"
 import type { groups } from "../types"
 
 export class UpgradeTree extends Phaser.Scene {
@@ -32,26 +33,18 @@ export class UpgradeTree extends Phaser.Scene {
 
         this.cameras.main.startFollow(player)
         this.cameras.main.setBounds(-200, -500, 1500, 1000)
+        this.setupCollisions(groups)
 
         // test upgrade item
-        const item = new Unlock(this, 200, 300)
+        const item = new Unlock(this, groups, 200, 300)
+    }
 
-        // // test upgrade item
-        // const item = this.add.sprite(200, 200, "unlockblock")
-        // item.setScale(0.4)
-        // item.setOrigin(0.5, 0.5)
-
-        // // test label
-        // const title = this.add.text(200, 200, "Pierce III", {
-        //     fontFamily: "Verdana",
-        //     fontSize: "20px",
-        //     fontStyle: "bold",
-        //     stroke: "black",
-        //     strokeThickness: 5,
-        //     wordWrap: {width: 1},
-        //     align: "center"
-        // })
-
-        // title.setOrigin(0.5, 0.5)
+    protected setupCollisions(groups: groups): void {
+        // bullet/unlock
+        this.physics.add.overlap(groups.bullets, groups.enemies, (bullet, unlock) => {
+            const typedBullet = bullet as Bullet
+            typedBullet.destroy();
+            (unlock as Unlock).damage(typedBullet.rotation);
+        })
     }
 }

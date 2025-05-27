@@ -6,7 +6,6 @@ export class Bullet extends Phaser.Physics.Arcade.Sprite {
 
     protected setup() {
         // add sprite to scene
-        this.scene.physics.add.existing(this)
         this.scene.add.existing(this)
 
         // properties

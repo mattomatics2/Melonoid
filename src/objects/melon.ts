@@ -20,7 +20,6 @@ export class Melon extends Phaser.Physics.Arcade.Sprite {
 
     protected setup(): void {
         // add sprite to scene
-        this.scene.physics.add.existing(this)
         this.scene.add.existing(this)
         this.groups.enemies.add(this)
 
