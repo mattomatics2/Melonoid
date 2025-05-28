@@ -32,7 +32,7 @@ export class Unlock extends Phaser.GameObjects.Container {
             align: "center"
         })
 
-        this.sprite = scene.add.sprite(0, 0, "unlockblock")
+        this.sprite = scene.add.sprite(0, 0, "unlockBlock")
         this.outline = scene.add.sprite(0, 0, "unlockOutline")
         this.startPos = new Phaser.Math.Vector2(x, y)
 
@@ -48,11 +48,13 @@ export class Unlock extends Phaser.GameObjects.Container {
         // properties
         this.sprite.setScale(0.4)
         this.label.setOrigin(0.5, 0.5)
-        this.setSize(this.sprite.displayWidth, this.sprite.displayHeight)
+        this.outline.setScale(0.4)
+        this.outline.setVisible(false)
 
         // add children to container
         this.setSize(this.sprite.displayWidth, this.sprite.displayHeight)
         this.add([this.sprite, this.outline, this.label])
+        
         this.setupAnim()
         this.update()
 
@@ -147,35 +149,14 @@ export class Unlock extends Phaser.GameObjects.Container {
         const canUnlock = hasRequirement && !this.unlocked
         if (!canUnlock) {
             // can't unlock
-            this.scene.sound.play("error")
             return
+        }
+
+        // purchasing
+        this.health --
+        if (this.health <- 1) {
+            this.purchaseEffect()
+            this.unlock()
         }
     }
 }
-
-// export class Unlock extends Phaser.GameObjects.Container {
-//     damage(): void {
-//         // visuals/audio
-//         this.bounce()
-//         this.flash()
-//         this.scene.sound.play("blockHit")
-
-//         // validation
-//         const hasRequirement = SavedUnlocks.includes(this.config.info.requirement)
-//         const canUnlock = hasRequirement && !this.unlocked 
-//         if (!canUnlock) {
-//             // can't unlock
-//             this.scene.sound.play("error")
-//             return
-//         }
-        
-//         // purchasing
-//         this.health --
-//         if (this.health <= 1) {
-//             // unlock
-//             this.scene.sound.play("purchase")
-//             SavedUnlocks.push(this.name)    
-//             this.unlock()
-//         }
-//     }
-// }
