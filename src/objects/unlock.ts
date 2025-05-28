@@ -9,6 +9,7 @@ type config = {
 
 export class Unlock extends Phaser.GameObjects.Container {
     private label: Phaser.GameObjects.Text
+    private outline: Phaser.GameObjects.Sprite
     private groups: groups
     private startPos: Phaser.Math.Vector2
 
@@ -31,7 +32,8 @@ export class Unlock extends Phaser.GameObjects.Container {
             align: "center"
         })
 
-        this.sprite = scene.add.sprite(0, 0, "unlockblock")
+        this.sprite = scene.add.sprite(0, 0, "unlockBlock")
+        this.outline = scene.add.sprite(0, 0, "unlockOutline")
         this.startPos = new Phaser.Math.Vector2(x, y)
 
         this.config = config
@@ -41,14 +43,17 @@ export class Unlock extends Phaser.GameObjects.Container {
         this.setup()
     }
 
+    // setups
     protected setup(): void {
         // properties
         this.sprite.setScale(0.4)
+        this.outline.setScale(0.4)
+        this.outline.setVisible(false)
         this.label.setOrigin(0.5, 0.5)
-        this.setSize(this.sprite.displayWidth, this.sprite.displayHeight)
-
+        
         // add children to container
-        this.add([this.sprite, this.label])
+        this.setSize(this.sprite.displayWidth, this.sprite.displayHeight)
+        this.add([this.sprite, this.outline, this.label])
         this.setupAnim()
         this.update()
 
@@ -74,7 +79,8 @@ export class Unlock extends Phaser.GameObjects.Container {
         })
     }
 
-    protected bounce(): void {
+    // effects
+    protected bounceEffect(): void {
         // change the sprite size
         this.setScale(1.2)
 
@@ -86,7 +92,7 @@ export class Unlock extends Phaser.GameObjects.Container {
         })
     }
 
-    protected flash(): void {
+    protected flashEffect(): void {
         // flash the sprite white
         this.sprite.setTintFill(0xc9c9c9)
 
@@ -97,10 +103,28 @@ export class Unlock extends Phaser.GameObjects.Container {
         })
     }
 
+    protected purchaseEffect(): void {
+        // audio
+        this.scene.sound.play("purchase")
+
+        // outline effect
+        this.outline.setVisible(true)
+        this.outline.setScale(0.4)
+        this.outline.setAlpha(1)
+
+        this.scene.add.tween({
+            targets: this.outline,
+            scale: 1,
+            alpha: 0,
+            duration: 150,
+        })
+    }
+
+    // public
     update(): void {
         // dimming
         const hasRequirement = SavedUnlocks.includes(this.config.info.requirement)
-        this.setAlpha(hasRequirement ? 1 : 0.5)
+        this.setAlpha(hasRequirement ? 1 : 0.5)     
 
         // unlocked
         if (SavedUnlocks.includes(this.name)) {
@@ -116,43 +140,23 @@ export class Unlock extends Phaser.GameObjects.Container {
     damage(): void {
         // visuals
         this.scene.sound.play("blockHit")
-        this.bounce()
-        this.flash()
+        this.bounceEffect()
+        this.flashEffect()
         
         // validate unlockability
         const hasRequirement = SavedUnlocks.includes(this.config.info.requirement)
         const canUnlock = hasRequirement && !this.unlocked
         if (!canUnlock) {
-            // can't unlock
-            this.scene.sound.play("error")
-            return
+            return // can't unlock
+        }
+
+        // purchasing
+        this.health --
+        if (this.health <= 1) {
+            // unlock
+            SavedUnlocks.push(this.name)
+            this.purchaseEffect()            
+            this.unlock()
         }
     }
 }
-
-// export class Unlock extends Phaser.GameObjects.Container {
-//     damage(): void {
-//         // visuals/audio
-//         this.bounce()
-//         this.flash()
-//         this.scene.sound.play("blockHit")
-
-//         // validation
-//         const hasRequirement = SavedUnlocks.includes(this.config.info.requirement)
-//         const canUnlock = hasRequirement && !this.unlocked 
-//         if (!canUnlock) {
-//             // can't unlock
-//             this.scene.sound.play("error")
-//             return
-//         }
-        
-//         // purchasing
-//         this.health --
-//         if (this.health <= 1) {
-//             // unlock
-//             this.scene.sound.play("purchase")
-//             SavedUnlocks.push(this.name)    
-//             this.unlock()
-//         }
-//     }
-// }

@@ -15,7 +15,8 @@ export class UpgradeTree extends Phaser.Scene {
         // images
         this.load.image("player", "images/ship.png")
         this.load.image("bullet", "images/bullet.png")
-        this.load.image("unlockblock", "images/unlockblock.png")
+        this.load.image("unlockBlock", "images/unlockblock.png")
+        this.load.image("unlockOutline", "images/unlockoutline.png")
 
         // sounds
         this.load.audio("laserShoot", "sounds/laser-shoot.wav")
