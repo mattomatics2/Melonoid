@@ -17,27 +17,27 @@ export const treeData: unlocks = {
 
     "Quickshot III": {
         x: 0, y: -2,
-        requirement: "Quickshot II", price: 5,
+        requirement: "Quickshot II", price: 15,
         unlock: () => Globals.fireDelay = 125
     },
 
     "Quickshot IV": {
         x: 0, y: -3,
-        requirement: "Quickshot III", price: 10,
+        requirement: "Quickshot III", price: 30,
         unlock: () => Globals.fireDelay = 100
     },
 
     // multiplier
     "Multiplier I": {
         x: -2, y: 0,
-        requirement: "Quickshot I", price: 5,
-        unlock: () => Globals.multiplier = 1.25
+        requirement: "Quickshot I", price: 10,
+        unlock: () => Globals.multiplier = 1.1
     },
 
     "Multiplier II": {
         x: -4, y: 0,
-        requirement: "Multiplier I", price: 10,
-        unlock: () => Globals.multiplier = 1.5
+        requirement: "Multiplier I", price: 20,
+        unlock: () => Globals.multiplier = 1.2
     },
 
     // damage
@@ -49,51 +49,51 @@ export const treeData: unlocks = {
 
     "Damage II": {
         x: 2, y: -2,
-        requirement: "Damage I", price: 5,
+        requirement: "Damage I", price: 15,
         unlock: () => Globals.fireDamage = 12
     },
 
     "Damage III": {
         x: 2, y: -3,
-        requirement: "Damage II", price: 10,
+        requirement: "Damage II", price: 25,
         unlock: () => Globals.fireDamage = 13
     },
 
     "Damage IV": {
         x: 2, y: -4,
-        requirement: "Damage III", price: 10,
+        requirement: "Damage III", price: 40,
         unlock: () => Globals.fireDamage = 15
     },
 
     // multishot
     "Multishot I": {
         x: -2, y: -2,
-        requirement: "Quickshot III", price: 5,
+        requirement: "Quickshot III", price: 15,
         unlock: () => Globals.fireCount = 2
     },
 
     "Multishot II": {
         x: -2, y: -3,
-        requirement: "Multishot I", price: 5,
+        requirement: "Multishot I", price: 30,
         unlock: () => Globals.fireCount = 3
     },
 
     "Multishot III": {
         x: -2, y: -4,
-        requirement: "Multishot II", price: 10,
+        requirement: "Multishot II", price: 40,
         unlock: () => Globals.fireCount = 4
     },
 
     // shield
     "Shield I": {
         x: -4, y: -2,
-        requirement: "Multishot I", price: 10,
+        requirement: "Multishot I", price: 15,
         unlock: () => Globals.shieldCount = 1
     },
 
     "Shield II": {
         x: -4, y: -3,
-        requirement: "Shield I", price: 15,
+        requirement: "Shield I", price: 20,
         unlock: () => Globals.shieldCount = 2
     },
 
