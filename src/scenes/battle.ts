@@ -1,9 +1,10 @@
 import { Player } from "../objects/player"
 import { Spawner } from "../objects/spawner"
 import { Notifier } from "../effects/notifier"
+import { Stats } from "../objects/stats"
 import type { Bullet } from "../objects/bullet"
 import type { Melon } from "../objects/melon"
-import type { groups } from "../types"
+import type { groups } from "../data/types"
 
 export class BattleScene extends Phaser.Scene {
     constructor() {
@@ -52,6 +53,7 @@ export class BattleScene extends Phaser.Scene {
         // create objects
         new Player(this, groups, 550, 325)
         new Spawner(this, groups)
+        new Stats(this)
 
         // notifier
         const notifier = new Notifier(this)

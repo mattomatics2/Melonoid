@@ -1,5 +1,5 @@
-import { SavedUnlocks } from "../globals"
-import type { groups, unlock } from "../types"
+import { Globals, SavedUnlocks } from "../data/globals"
+import type { groups, unlock } from "../data/types"
 
 type config = {
     name: string,
@@ -8,10 +8,11 @@ type config = {
 }
 
 export class Unlock extends Phaser.GameObjects.Container {
-    private label: Phaser.GameObjects.Text
+    private title: Phaser.GameObjects.Text
+    private price: Phaser.GameObjects.Text
     private outline: Phaser.GameObjects.Sprite
-    private groups: groups
     private startPos: Phaser.Math.Vector2
+    private groups: groups
 
     private health = 5
     private unlocked = false
@@ -22,13 +23,23 @@ export class Unlock extends Phaser.GameObjects.Container {
     constructor(scene: Phaser.Scene, groups: groups, x: integer, y: integer, config: config) {
         super(scene, x, y)
 
-        this.label = scene.add.text(0, 0, config.name, {
+        this.title = scene.add.text(0, 0, config.name, {
             fontFamily: "Verdana",
             fontSize: "20px",
             fontStyle: "bold",
             stroke: "black",
             strokeThickness: 5,
             wordWrap: {width: 1},
+            align: "center"
+        })
+
+        this.price = scene.add.text(0, -30, `★ ${config.info.price}`, {
+            fontFamily: "Verdana",
+            fontSize: "16px",
+            fontStyle: "bold",
+            stroke: "black",
+            strokeThickness: 5,
+            color: "#b960db",
             align: "center"
         })
 
@@ -43,18 +54,19 @@ export class Unlock extends Phaser.GameObjects.Container {
         this.setup()
     }
 
-    // setups
+    // setup
     protected setup(): void {
         // properties
         this.sprite.setScale(0.4)
-        this.label.setOrigin(0.5, 0.5)
+        this.title.setOrigin(0.5, 0.5)
+        this.price.setOrigin(0.5, 1)
         this.outline.setScale(0.4)
         this.outline.setVisible(false)
 
         // add children to container
         this.setSize(this.sprite.displayWidth, this.sprite.displayHeight)
-        this.add([this.sprite, this.outline, this.label])
-        
+        this.add([this.sprite, this.outline, this.title, this.price])
+
         this.setupAnim()
         this.update()
 
@@ -80,6 +92,7 @@ export class Unlock extends Phaser.GameObjects.Container {
         })
     }
 
+    // effects
     protected bounceEffect(): void {
         // change the sprite size
         this.setScale(1.2)
@@ -92,9 +105,9 @@ export class Unlock extends Phaser.GameObjects.Container {
         })
     }
 
-    protected flashEffect(): void {
+    protected flashEffect(flashColor: number): void {
         // flash the sprite white
-        this.sprite.setTintFill(0xc9c9c9)
+        this.sprite.setTintFill(flashColor)
 
         // reset to default tint
         this.scene.time.delayedCall(20, () => {
@@ -125,7 +138,7 @@ export class Unlock extends Phaser.GameObjects.Container {
     update(): void {
         // dimming
         const hasRequirement = SavedUnlocks.includes(this.config.info.requirement)
-        this.setAlpha(hasRequirement ? 1 : 0.5)     
+        this.setAlpha(hasRequirement ? 1 : 0.5)
 
         // unlocked
         if (SavedUnlocks.includes(this.name)) {
@@ -136,25 +149,42 @@ export class Unlock extends Phaser.GameObjects.Container {
     unlock(): void {
         this.unlocked = true
         this.sprite.setTint(0x66ff54)
+        this.price.destroy()
+        this.config.info.unlock()
+
+        // sub unlock visibility
+        for (const name in this.config.connections) {
+            const data = this.config.connections[name]
+            const requirement = data.config.info.requirement
+            
+            if (requirement == this.name) {
+                data.setAlpha(1)
+            }
+        }
     }
 
     damage(): void {
         // visuals
         this.scene.sound.play("blockHit")
         this.bounceEffect()
-        this.flashEffect()
+        this.flashEffect(0xc9c9c9)
         
         // validate unlockability
         const hasRequirement = SavedUnlocks.includes(this.config.info.requirement)
-        const canUnlock = hasRequirement && !this.unlocked
+        const hasShards = Globals.shards >= this.config.info.price
+        const canUnlock = hasRequirement && !this.unlocked && hasShards
         if (!canUnlock) {
             // can't unlock
+            this.flashEffect(0xeb4034)
+            this.scene.sound.play("error")
             return
         }
 
         // purchasing
         this.health --
         if (this.health <- 1) {
+            SavedUnlocks.push(this.name)
+            Globals.shards -= this.config.info.price
             this.purchaseEffect()
             this.unlock()
         }

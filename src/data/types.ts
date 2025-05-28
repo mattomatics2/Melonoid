@@ -7,6 +7,7 @@ export type groups = {
 export type unlock = {
     x: integer,
     y: integer,
+    price: integer,
     requirement: string,
     unlock: () => void
 }
@@ -16,7 +17,8 @@ export type phase = {
     deathSound: string,
     health: integer,
     flashSize: integer,
-    reward: integer
+    seedReward: integer,
+    shardChance: integer
 }
 
 export type savedUnlocks = Array<string>

@@ -1,14 +1,12 @@
 import Phaser from "phaser"
 import { BattleScene } from "./scenes/battle"
-import { ShopScene } from "./scenes/shop"
 import { UpgradeTree } from "./scenes/tree"
 
 const config = {
     type: Phaser.WEBGL,
     width: 1100,
     height: 650,
-    // scene: [BattleScene, ShopScene, UpgradeTree],
-    scene: [UpgradeTree],
+    scene: [BattleScene, UpgradeTree],
     scale: {mode: Phaser.Scale.FIT},
 
     physics: {

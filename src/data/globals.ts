@@ -5,13 +5,13 @@ export const Globals = {
     fireDamage: 10,
     fireCount: 1,
 
-    fireCountCost: 160,
-    fireDelayCost: 25,
-    fireDamageCost: 50,
+    multiplier: 1,
+    shieldCount: 0,
+    pierceCount: 0,
 
-    melonFrequency: 1000,
-    score: 0,
-    cash: 10
+    melonFrequency: 2000,
+    shards: 0,
+    seeds: 0
 }
 
 export const Phases: phases = {
@@ -20,7 +20,8 @@ export const Phases: phases = {
         deathSound: "largeExplosion",
         health: 150,
         flashSize: 2,
-        reward: 10
+        seedReward: 10,
+        shardChance: 50
     },
 
     1: {
@@ -28,7 +29,8 @@ export const Phases: phases = {
         deathSound: "smallExplosion",
         health: 100,
         flashSize: 1.5,
-        reward: 5
+        seedReward: 5,
+        shardChance: 15
     },
 
     2: {
@@ -36,7 +38,8 @@ export const Phases: phases = {
         deathSound: "smallExplosion",
         health: 50,
         flashSize: 1,
-        reward: 2
+        seedReward: 2,
+        shardChance: 5
     },
 }
 

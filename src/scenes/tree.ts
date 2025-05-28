@@ -4,7 +4,8 @@ import { Bullet } from "../objects/bullet"
 import { Notifier } from "../effects/notifier"
 import { treeData } from "../data/unlocks"
 import { Line } from "../objects/line"
-import type { groups } from "../types"
+import { Stats } from "../objects/stats"
+import type { groups } from "../data/types"
 
 export class UpgradeTree extends Phaser.Scene {
     constructor() {
@@ -24,7 +25,7 @@ export class UpgradeTree extends Phaser.Scene {
         this.load.audio("blockHit", "sounds/block-hit.wav")
         this.load.audio("purchase", "sounds/cash-register.mp3")
         this.load.audio("error", "sounds/error.wav")
-    }   
+    }
 
     protected create(): void {
         // collision groups
@@ -34,12 +35,26 @@ export class UpgradeTree extends Phaser.Scene {
             enemies: this.physics.add.group()
         }
 
+        // objects
         const player = new Player(this, groups, 550, 325)
         player.enableWrapping = false
+        new Stats(this)
 
+        // go to battle
+        player.eventEmitter.on("OutOfBounds", () => {
+            player.destroy()
+            this.cameras.main.fadeOut(500)
+
+            this.time.delayedCall(600, () => {
+                this.scene.start("Battle")
+            })
+        })
+
+        // setup
         this.setupCamera(player)
         this.setupCollisions(groups)
         this.setupUnlocks(groups)
+        this.cameras.main.fadeIn(500)
 
         // notification
         const notifier = new Notifier(this)
@@ -48,7 +63,7 @@ export class UpgradeTree extends Phaser.Scene {
 
     protected setupCamera(player: Player): void {
         // camera bounds
-        const bounds = new Phaser.Math.Vector2(300, 500)
+        const bounds = new Phaser.Math.Vector2(1000, 900)
         const width = this.cameras.main.width
         const height = this.cameras.main.height
         

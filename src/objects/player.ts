@@ -1,8 +1,8 @@
 import { InputManager } from "./input"
-import { Globals } from "../globals"
+import { Globals } from "../data/globals"
 import { Bullet } from "./bullet"
 import { Flash } from "../effects/flash"
-import type { groups } from "../types"
+import type { groups } from "../data/types"
 
 export class Player extends Phaser.Physics.Arcade.Sprite {
     private inputManager: InputManager
@@ -67,8 +67,9 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
         }
 
         // bounds
-        const inBounds = Phaser.Geom.Rectangle.Overlaps(this.scene.physics.world.bounds, this.getBounds())
-        if (!inBounds) {
+        const cameraView = this.scene.cameras.main.getBounds()
+        const inCamera = Phaser.Geom.Rectangle.Overlaps(cameraView, this.getBounds())
+        if (!inCamera && !this.enableWrapping) {
             this.eventEmitter.emit("OutOfBounds")
         }
     }
@@ -106,7 +107,7 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
         // shop scene
         const scene = this.scene
         this.scene.time.delayedCall(5000, () => scene.cameras.main.fadeOut(1000))
-        this.scene.time.delayedCall(6500, () => scene.scene.start("Shop"))
+        this.scene.time.delayedCall(6500, () => scene.scene.start("UpgradeTree"))
 
         // remove player
         this.destroy()

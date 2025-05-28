@@ -1,6 +1,6 @@
 import { Melon } from "./melon"
-import { Globals } from "../globals"
-import type { groups } from "../types"
+import { Globals } from "../data/globals"
+import type { groups } from "../data/types"
 
 export class Spawner {
     private scene: Phaser.Scene
