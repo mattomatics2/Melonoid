@@ -32,7 +32,7 @@ export class Unlock extends Phaser.GameObjects.Container {
             align: "center"
         })
 
-        this.sprite = scene.add.sprite(0, 0, "unlockBlock")
+        this.sprite = scene.add.sprite(0, 0, "unlockblock")
         this.outline = scene.add.sprite(0, 0, "unlockOutline")
         this.startPos = new Phaser.Math.Vector2(x, y)
 
@@ -47,10 +47,9 @@ export class Unlock extends Phaser.GameObjects.Container {
     protected setup(): void {
         // properties
         this.sprite.setScale(0.4)
-        this.outline.setScale(0.4)
-        this.outline.setVisible(false)
         this.label.setOrigin(0.5, 0.5)
-        
+        this.setSize(this.sprite.displayWidth, this.sprite.displayHeight)
+
         // add children to container
         this.setSize(this.sprite.displayWidth, this.sprite.displayHeight)
         this.add([this.sprite, this.outline, this.label])
@@ -79,7 +78,6 @@ export class Unlock extends Phaser.GameObjects.Container {
         })
     }
 
-    // effects
     protected bounceEffect(): void {
         // change the sprite size
         this.setScale(1.2)
@@ -107,16 +105,17 @@ export class Unlock extends Phaser.GameObjects.Container {
         // audio
         this.scene.sound.play("purchase")
 
-        // outline effect
+        // reset outline
+        this.outline.setAlpha(1)
         this.outline.setVisible(true)
         this.outline.setScale(0.4)
-        this.outline.setAlpha(1)
 
-        this.scene.add.tween({
+        // tween out
+        this.scene.tweens.add({
             targets: this.outline,
             scale: 1,
             alpha: 0,
-            duration: 150,
+            duration: 200
         })
     }
 
@@ -147,16 +146,36 @@ export class Unlock extends Phaser.GameObjects.Container {
         const hasRequirement = SavedUnlocks.includes(this.config.info.requirement)
         const canUnlock = hasRequirement && !this.unlocked
         if (!canUnlock) {
-            return // can't unlock
-        }
-
-        // purchasing
-        this.health --
-        if (this.health <= 1) {
-            // unlock
-            SavedUnlocks.push(this.name)
-            this.purchaseEffect()            
-            this.unlock()
+            // can't unlock
+            this.scene.sound.play("error")
+            return
         }
     }
 }
+
+// export class Unlock extends Phaser.GameObjects.Container {
+//     damage(): void {
+//         // visuals/audio
+//         this.bounce()
+//         this.flash()
+//         this.scene.sound.play("blockHit")
+
+//         // validation
+//         const hasRequirement = SavedUnlocks.includes(this.config.info.requirement)
+//         const canUnlock = hasRequirement && !this.unlocked 
+//         if (!canUnlock) {
+//             // can't unlock
+//             this.scene.sound.play("error")
+//             return
+//         }
+        
+//         // purchasing
+//         this.health --
+//         if (this.health <= 1) {
+//             // unlock
+//             this.scene.sound.play("purchase")
+//             SavedUnlocks.push(this.name)    
+//             this.unlock()
+//         }
+//     }
+// }
