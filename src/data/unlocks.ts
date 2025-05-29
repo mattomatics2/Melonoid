@@ -106,13 +106,7 @@ export const treeData: unlocks = {
 
     "Piercing II": {
         x: 4, y: -2,
-        requirement: "Piercing I", price: 5,
+        requirement: "Piercing I", price: 10,
         unlock: () => Globals.pierceCount = 2
-    },
-
-    "Piercing III": {
-        x: 4, y: -3,
-        requirement: "Piercing II", price: 10,
-        unlock: () => Globals.pierceCount = 3
-    },
+    }
 }

@@ -9,7 +9,7 @@ export const Globals = {
     shieldCount: 0,
     pierceCount: 0,
 
-    melonFrequency: 2000
+    melonFrequency: 4000
 }
 
 export const Saved = {

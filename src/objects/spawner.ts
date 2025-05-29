@@ -22,6 +22,6 @@ export class Spawner {
 
     protected spawnMelon(): void {
         new Melon(this.scene, this.groups, -150, -150, 0)
-        Globals.melonFrequency = Phaser.Math.Clamp(Globals.melonFrequency - 50, 500, 2000)
+        Globals.melonFrequency = Phaser.Math.Clamp(Globals.melonFrequency - 25, 500, 4000)
     }
 }
