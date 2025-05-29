@@ -1,4 +1,4 @@
-import { Phases, Saved, Globals } from "../data/globals"
+import { Phases, Saved } from "../data/globals"
 import { Flash } from "../effects/flash"
 import { Billboard } from "../effects/billboard"
 import type { groups } from "../data/types"
@@ -39,14 +39,14 @@ export class Melon extends Phaser.Physics.Arcade.Sprite {
         this.scene.physics.world.wrap(this, 125)
     }
 
-    damage(): void {
+    damage(damage: integer): void {
         // flash/sounds
         this.setTintFill(0xc9c9c9)
         this.scene.time.delayedCall(15, () => this.clearTint())
         this.scene.sound.play("melonHit")
 
         // death
-        this.health -= Globals.fireDamage
+        this.health -= damage
         if (this.health > 0) {
             return
         }

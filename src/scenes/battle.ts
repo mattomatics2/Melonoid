@@ -2,9 +2,12 @@ import { Player } from "../objects/player"
 import { Spawner } from "../objects/spawner"
 import { Notifier } from "../effects/notifier"
 import { Stats } from "../objects/stats"
+import { Saved } from "../data/globals"
+
 import type { Bullet } from "../objects/bullet"
 import type { Melon } from "../objects/melon"
 import type { groups } from "../data/types"
+import { treeData } from "../data/unlocks"
 
 export class BattleScene extends Phaser.Scene {
     constructor() {
@@ -48,6 +51,7 @@ export class BattleScene extends Phaser.Scene {
         }
 
         this.setupCollisions(groups)
+        this.setupUnlocks()
         this.cameras.main.fadeIn(500)
 
         // create objects
@@ -63,8 +67,9 @@ export class BattleScene extends Phaser.Scene {
     protected setupCollisions(groups: groups): void {
         // bullet/melon
         this.physics.add.overlap(groups.bullets, groups.enemies, (bullet, enemy) => {
-            (bullet as Bullet).destroy();
-            (enemy as Melon).damage();
+            const typedBullet = bullet as Bullet
+            const typedEnemy = enemy as Melon
+            typedBullet.remove(typedEnemy)
         })
 
         // player/melon
@@ -72,5 +77,13 @@ export class BattleScene extends Phaser.Scene {
             (player as Player).explode();
             (enemy as Melon).explode();
         })
+    }
+
+    protected setupUnlocks(): void {
+        for (const key in Saved.unlocks) {
+            const name = Saved.unlocks[key]
+            const data = treeData[name]
+            if (data) data.unlock()
+        }
     }
 }

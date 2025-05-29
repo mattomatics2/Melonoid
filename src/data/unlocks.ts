@@ -12,19 +12,19 @@ export const treeData: unlocks = {
     "Quickshot II": {
         x: 0, y: -1,
         requirement: "Quickshot I", price: 5,
-        unlock: () => Globals.fireDelay = 150
+        unlock: () => Globals.fireDelay = 175
     },
 
     "Quickshot III": {
         x: 0, y: -2,
         requirement: "Quickshot II", price: 15,
-        unlock: () => Globals.fireDelay = 125
+        unlock: () => Globals.fireDelay = 150
     },
 
     "Quickshot IV": {
         x: 0, y: -3,
         requirement: "Quickshot III", price: 30,
-        unlock: () => Globals.fireDelay = 100
+        unlock: () => Globals.fireDelay = 125
     },
 
     // multiplier
@@ -62,7 +62,7 @@ export const treeData: unlocks = {
     "Damage IV": {
         x: 2, y: -4,
         requirement: "Damage III", price: 40,
-        unlock: () => Globals.fireDamage = 15
+        unlock: () => Globals.fireDamage = 14
     },
 
     // multishot

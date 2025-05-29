@@ -1,4 +1,4 @@
-import { Globals, Saved } from "../data/globals"
+import { Saved } from "../data/globals"
 import type { groups, unlock } from "../data/types"
 
 type config = {
@@ -142,15 +142,14 @@ export class Unlock extends Phaser.GameObjects.Container {
 
         // unlocked
         if (Saved.unlocks.includes(this.name)) {
-            this.unlock()
+            this.unlockStatus()
         }
     }
 
-    unlock(): void {
+    unlockStatus(): void {
         this.unlocked = true
         this.sprite.setTint(0x66ff54)
         this.price.destroy()
-        this.config.info.unlock()
 
         // sub unlock visibility
         for (const name in this.config.connections) {
@@ -185,8 +184,9 @@ export class Unlock extends Phaser.GameObjects.Container {
         if (this.health <- 1) {
             Saved.unlocks.push(this.name)
             Saved.shards -= this.config.info.price
+            this.config.info.unlock()
             this.purchaseEffect()
-            this.unlock()
+            this.unlockStatus()
         }
     }
 }
