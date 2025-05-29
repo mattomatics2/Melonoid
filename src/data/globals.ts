@@ -9,13 +9,12 @@ export const Globals = {
     shieldCount: 0,
     pierceCount: 0,
 
-    melonFrequency: 4000
+    melonFrequency: 4500
 }
 
 export const Saved = {
     unlocks: [""],
-    shards: 0,
-    seeds: 0
+    shards: 0
 }
 
 export const Phases: phases = {
@@ -24,7 +23,6 @@ export const Phases: phases = {
         deathSound: "largeExplosion",
         health: 150,
         flashSize: 2,
-        seedReward: 10,
         shardChance: 50
     },
 
@@ -33,7 +31,6 @@ export const Phases: phases = {
         deathSound: "smallExplosion",
         health: 100,
         flashSize: 1.5,
-        seedReward: 5,
         shardChance: 15
     },
 
@@ -42,7 +39,6 @@ export const Phases: phases = {
         deathSound: "smallExplosion",
         health: 50,
         flashSize: 1,
-        seedReward: 2,
         shardChance: 5
     },
 }

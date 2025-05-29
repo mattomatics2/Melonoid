@@ -61,17 +61,12 @@ export class Melon extends Phaser.Physics.Arcade.Sprite {
         }
 
         // rewards
-        const seedReward = Phases[this.phase].seedReward
         const shardChance = Phases[this.phase].shardChance
-
-        // seed
-        new Billboard(this.scene, this.x, this.y, `❖ ${seedReward}`, "#22a335")
-        Saved.seeds += seedReward
 
         // shard
         if (Math.random() < shardChance / 100) {
             Saved.shards ++
-            new Billboard(this.scene, this.x, this.y - 30, "★ 1", "#b960db")
+            new Billboard(this.scene, this.x, this.y, "★ 1")
         }
 
         // remove melon

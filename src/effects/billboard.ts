@@ -1,9 +1,9 @@
 export class Billboard extends Phaser.GameObjects.Text {
-    constructor(scene: Phaser.Scene, x: integer, y: integer, text: string, color?: string) {
+    constructor(scene: Phaser.Scene, x: integer, y: integer, text: string) {
         super(scene, x, y, text, {
             fontSize: "26px",
             fontStyle: "bold",
-            color: color || "#52b04c",
+            color: "#b960db",
             stroke: "#000000",
             strokeThickness: 2
         })

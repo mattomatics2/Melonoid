@@ -2,7 +2,6 @@ import { Saved } from "../data/globals"
 
 export class Stats extends Phaser.GameObjects.Container {
     private shards: Phaser.GameObjects.Text
-    private seeds: Phaser.GameObjects.Text
 
     constructor(scene: Phaser.Scene) {
         super(scene)
@@ -17,16 +16,6 @@ export class Stats extends Phaser.GameObjects.Container {
             align: "right"
         })
 
-        this.seeds = scene.add.text(0, 26, `❖ ${Saved.seeds}`, {
-            fontFamily: "Verdana",
-            fontSize: "18px",
-            fontStyle: "bold",
-            stroke: "black",
-            strokeThickness: 5,
-            color: "#22a335",
-            align: "right"
-        })
-
         this.setup()
     }
 
@@ -35,20 +24,18 @@ export class Stats extends Phaser.GameObjects.Container {
         this.setScrollFactor(0)
         this.setDepth(100)
         this.shards.setOrigin(1, 0)
-        this.seeds.setOrigin(1, 0)
         
         // move container to top right
         this.x = this.scene.cameras.main.width - 10
         this.y = 10
         
         // add to scene
-        this.add([this.shards, this.seeds])
+        this.add([this.shards])
         this.scene.add.existing(this)
     }
 
     protected preUpdate(): void {
         // update stats each frame
         this.shards.setText(`★ ${Saved.shards}`)
-        this.seeds.setText(`❖ ${Saved.seeds}`)
     }
 }

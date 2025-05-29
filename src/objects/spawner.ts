@@ -5,23 +5,18 @@ import type { groups } from "../data/types"
 export class Spawner {
     private scene: Phaser.Scene
     private groups: groups
+    private frequency = Globals.melonFrequency
 
     constructor(scene: Phaser.Scene, groups: groups) {
         this.scene = scene
         this.groups = groups
-
-        scene.time.addEvent({
-            delay: Globals.melonFrequency,
-            callback: this.spawnMelon,
-            callbackScope: this,
-            loop: true
-        })
-
         this.spawnMelon()
     }
 
     protected spawnMelon(): void {
         new Melon(this.scene, this.groups, -150, -150, 0)
-        Globals.melonFrequency = Phaser.Math.Clamp(Globals.melonFrequency - 25, 500, 4000)
+        this.frequency = Phaser.Math.Clamp(this.frequency - 25, 1000, 4500)
+        console.log(this.frequency)
+        this.scene.time.delayedCall(this.frequency, () => this.spawnMelon())
     }
 }

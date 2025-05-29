@@ -17,7 +17,6 @@ export type phase = {
     deathSound: string,
     health: integer,
     flashSize: integer,
-    seedReward: integer,
     shardChance: integer
 }
 
