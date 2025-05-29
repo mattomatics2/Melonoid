@@ -76,7 +76,7 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
 
     protected spawnBullets(): void {
         const fireCount = Globals.fireCount
-        const angleSpread = Phaser.Math.DegToRad(30)
+        const angleSpread = Phaser.Math.DegToRad(30 * (Globals.fireCount / 3))
         const baseAngle = this.rotation
 
         for (let i = 0; i < fireCount; i ++) {
