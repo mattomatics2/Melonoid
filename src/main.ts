@@ -7,8 +7,22 @@ const config = {
     type: Phaser.WEBGL,
     width: 1100,
     height: 650,
-    scene: [BattleScene, UpgradeTree],
-    scale: {mode: Phaser.Scale.FIT},
+    backgroundColor: 0x09080a,
+
+    fps: {
+        target: 120,
+        forceSetTimeOut: true
+    },
+
+    scene: [
+        BattleScene,
+        UpgradeTree
+    ],
+
+    scale: {
+        mode: Phaser.Scale.FIT,
+        autoCenter: Phaser.Scale.CENTER_BOTH
+    },
 
     physics: {
         default: "arcade",

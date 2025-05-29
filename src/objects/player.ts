@@ -107,8 +107,8 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
 
         // shop scene
         const scene = this.scene
-        this.scene.time.delayedCall(2000, () => scene.cameras.main.fadeOut(1000))
-        this.scene.time.delayedCall(2500, () => scene.scene.start("UpgradeTree"))
+        this.scene.time.delayedCall(2000, () => scene.cameras.main.fadeOut(500))
+        this.scene.time.delayedCall(2700, () => scene.scene.start("UpgradeTree"))
 
         // remove player
         this.destroy()

@@ -27,29 +27,16 @@ export const treeData: unlocks = {
         unlock: () => Globals.fireDelay = 125
     },
 
-    // turn speed
-    "Gyro I": {
-        x: 2, y: 0,
-        requirement: "Quickshot I", price: 5,
-        unlock: () => Globals.turnSpeed = 8
-    },
-
-    "Gyro II": {
-        x: 4, y: 0,
-        requirement: "Gyro I", price: 10,
-        unlock: () => Globals.turnSpeed = 15
-    },
-
     // multiplier
-    "Multiplier I": {
+    "Luck I": {
         x: -2, y: 0,
-        requirement: "Quickshot I", price: 10,
+        requirement: "Quickshot I", price: 15,
         unlock: () => Globals.multiplier = 1.1
     },
 
-    "Multiplier II": {
+    "Luck II": {
         x: -4, y: 0,
-        requirement: "Multiplier I", price: 20,
+        requirement: "Luck I", price: 25,
         unlock: () => Globals.multiplier = 1.2
     },
 
@@ -81,19 +68,19 @@ export const treeData: unlocks = {
     // multishot
     "Multishot I": {
         x: -2, y: -2,
-        requirement: "Quickshot III", price: 15,
+        requirement: "Quickshot III", price: 20,
         unlock: () => Globals.fireCount = 2
     },
 
     "Multishot II": {
         x: -2, y: -3,
-        requirement: "Multishot I", price: 30,
+        requirement: "Multishot I", price: 35,
         unlock: () => Globals.fireCount = 3
     },
 
     "Multishot III": {
         x: -2, y: -4,
-        requirement: "Multishot II", price: 40,
+        requirement: "Multishot II", price: 50,
         unlock: () => Globals.fireCount = 4
     },
 
@@ -113,13 +100,13 @@ export const treeData: unlocks = {
     // piercing
     "Piercing I": {
         x: 4, y: -1,
-        requirement: "Damage I", price: 5,
+        requirement: "Damage I", price: 10,
         unlock: () => Globals.pierceCount = 1
     },
 
     "Piercing II": {
         x: 4, y: -2,
-        requirement: "Piercing I", price: 10,
+        requirement: "Piercing I", price: 20,
         unlock: () => Globals.pierceCount = 2
     }
 }
