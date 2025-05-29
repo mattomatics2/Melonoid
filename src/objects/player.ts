@@ -48,7 +48,7 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
         const worldPoint = this.scene.cameras.main.getWorldPoint(mouseX, mouseY)
         
         const angle = Phaser.Math.Angle.Between(this.x, this.y, worldPoint.x, worldPoint.y)
-        this.rotation = Phaser.Math.Angle.RotateTo(this.rotation, angle, 15 * (delta / 1000))
+        this.rotation = Phaser.Math.Angle.RotateTo(this.rotation, angle, Globals.turnSpeed * (delta / 1000))
 
         // movement
         const directionX = this.inputManager.getInputAxis("right", "left")
@@ -76,11 +76,12 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
 
     protected spawnBullets(): void {
         const fireCount = Globals.fireCount
-        const angleSpread = Phaser.Math.DegToRad(15)
+        const angleSpread = Phaser.Math.DegToRad(30)
         const baseAngle = this.rotation
 
         for (let i = 0; i < fireCount; i ++) {
-            const offset = angleSpread * (i - (fireCount - 1) / 2)
+            const percent = fireCount === 1 ? 0 : (i / (fireCount - 1)) - 0.5
+            const offset = angleSpread * percent
             const angle = baseAngle + offset
 
             const bullet = new Bullet(this.scene, this.x, this.y)
@@ -106,8 +107,8 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
 
         // shop scene
         const scene = this.scene
-        this.scene.time.delayedCall(5000, () => scene.cameras.main.fadeOut(1000))
-        this.scene.time.delayedCall(6500, () => scene.scene.start("UpgradeTree"))
+        this.scene.time.delayedCall(2000, () => scene.cameras.main.fadeOut(1000))
+        this.scene.time.delayedCall(2500, () => scene.scene.start("UpgradeTree"))
 
         // remove player
         this.destroy()

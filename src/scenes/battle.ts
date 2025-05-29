@@ -22,6 +22,7 @@ export class BattleScene extends Phaser.Scene {
         this.load.image("largeMelon", "images/large-melon.png")
         this.load.image("halfMelon", "images/half-melon.png")
         this.load.image("smallMelon", "images/small-melon.png")
+        this.load.image("stars", "images/stars.png")
 
         // sounds
         this.load.audio("laserShoot", "sounds/laser-shoot.wav")
@@ -62,6 +63,20 @@ export class BattleScene extends Phaser.Scene {
         // notifier
         const notifier = new Notifier(this)
         notifier.playOnce("tutorial1", "Shoot melons by holding [Space] on your keyboard.")
+    
+        // test scrolling background
+        // const bg = this.add.tileSprite(0, -50, 1100, 700, "stars")
+        // bg.setDepth(-100)
+        // bg.setOrigin(0, 0)
+        // bg.setScrollFactor(0)
+
+        // this.time.addEvent({
+        //     delay: 16,
+        //     loop: true,
+        //     callback: () => {
+        //         bg.tilePositionX += 1
+        //     }
+        // })
     }
 
     protected setupCollisions(groups: groups): void {

@@ -170,7 +170,7 @@ export class Unlock extends Phaser.GameObjects.Container {
         
         // validate unlockability
         const hasRequirement = Saved.unlocks.includes(this.config.info.requirement)
-        const hasShards = Saved.shards >= this.config.info.price
+        const hasShards = Saved.stars >= this.config.info.price
         const canUnlock = hasRequirement && !this.unlocked && hasShards
         if (!canUnlock) {
             // can't unlock
@@ -183,7 +183,7 @@ export class Unlock extends Phaser.GameObjects.Container {
         this.health --
         if (this.health <- 1) {
             Saved.unlocks.push(this.name)
-            Saved.shards -= this.config.info.price
+            Saved.stars -= this.config.info.price
             this.config.info.unlock()
             this.purchaseEffect()
             this.unlockStatus()

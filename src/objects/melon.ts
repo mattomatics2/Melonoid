@@ -63,9 +63,9 @@ export class Melon extends Phaser.Physics.Arcade.Sprite {
         // rewards
         const shardChance = Phases[this.phase].shardChance
 
-        // shard
+        // stars
         if (Math.random() < shardChance / 100) {
-            Saved.shards ++
+            Saved.stars ++
             new Billboard(this.scene, this.x, this.y, "★ 1")
         }
 

@@ -5,6 +5,7 @@ import { Notifier } from "../effects/notifier"
 import { treeData } from "../data/unlocks"
 import { Line } from "../objects/line"
 import { Stats } from "../objects/stats"
+import { Background } from "../effects/background"
 import type { groups } from "../data/types"
 
 export class UpgradeTree extends Phaser.Scene {
@@ -39,6 +40,7 @@ export class UpgradeTree extends Phaser.Scene {
         const player = new Player(this, groups, 550, 325)
         player.enableWrapping = false
         new Stats(this)
+        new Background(this)
 
         // go to battle
         player.eventEmitter.on("OutOfBounds", () => {

@@ -27,6 +27,19 @@ export const treeData: unlocks = {
         unlock: () => Globals.fireDelay = 125
     },
 
+    // turn speed
+    "Gyro I": {
+        x: 2, y: 0,
+        requirement: "Quickshot I", price: 5,
+        unlock: () => Globals.turnSpeed = 8
+    },
+
+    "Gyro II": {
+        x: 4, y: 0,
+        requirement: "Gyro I", price: 10,
+        unlock: () => Globals.turnSpeed = 15
+    },
+
     // multiplier
     "Multiplier I": {
         x: -2, y: 0,

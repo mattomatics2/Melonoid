@@ -8,13 +8,14 @@ export const Globals = {
     multiplier: 1,
     shieldCount: 0,
     pierceCount: 0,
+    turnSpeed: 5,
 
-    melonFrequency: 4500
+    melonFrequency: 3000
 }
 
 export const Saved = {
     unlocks: [""],
-    shards: 0
+    stars: 0
 }
 
 export const Phases: phases = {

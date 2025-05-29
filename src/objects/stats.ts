@@ -6,7 +6,7 @@ export class Stats extends Phaser.GameObjects.Container {
     constructor(scene: Phaser.Scene) {
         super(scene)
 
-        this.shards = scene.add.text(0, 0, `★ ${Saved.shards}`, {
+        this.shards = scene.add.text(0, 0, `★ ${Saved.stars}`, {
             fontFamily: "Verdana",
             fontSize: "18px",
             fontStyle: "bold",
@@ -36,6 +36,6 @@ export class Stats extends Phaser.GameObjects.Container {
 
     protected preUpdate(): void {
         // update stats each frame
-        this.shards.setText(`★ ${Saved.shards}`)
+        this.shards.setText(`★ ${Saved.stars}`)
     }
 }
