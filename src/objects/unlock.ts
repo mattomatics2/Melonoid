@@ -1,4 +1,4 @@
-import { Globals, SavedUnlocks } from "../data/globals"
+import { Globals, Saved } from "../data/globals"
 import type { groups, unlock } from "../data/types"
 
 type config = {
@@ -137,11 +137,11 @@ export class Unlock extends Phaser.GameObjects.Container {
     // public
     update(): void {
         // dimming
-        const hasRequirement = SavedUnlocks.includes(this.config.info.requirement)
+        const hasRequirement = Saved.unlocks.includes(this.config.info.requirement)
         this.setAlpha(hasRequirement ? 1 : 0.5)
 
         // unlocked
-        if (SavedUnlocks.includes(this.name)) {
+        if (Saved.unlocks.includes(this.name)) {
             this.unlock()
         }
     }
@@ -170,8 +170,8 @@ export class Unlock extends Phaser.GameObjects.Container {
         this.flashEffect(0xc9c9c9)
         
         // validate unlockability
-        const hasRequirement = SavedUnlocks.includes(this.config.info.requirement)
-        const hasShards = Globals.shards >= this.config.info.price
+        const hasRequirement = Saved.unlocks.includes(this.config.info.requirement)
+        const hasShards = Saved.shards >= this.config.info.price
         const canUnlock = hasRequirement && !this.unlocked && hasShards
         if (!canUnlock) {
             // can't unlock
@@ -183,8 +183,8 @@ export class Unlock extends Phaser.GameObjects.Container {
         // purchasing
         this.health --
         if (this.health <- 1) {
-            SavedUnlocks.push(this.name)
-            Globals.shards -= this.config.info.price
+            Saved.unlocks.push(this.name)
+            Saved.shards -= this.config.info.price
             this.purchaseEffect()
             this.unlock()
         }

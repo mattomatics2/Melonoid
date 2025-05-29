@@ -1,4 +1,4 @@
-import { Globals } from "../data/globals"
+import { Saved } from "../data/globals"
 
 export class Stats extends Phaser.GameObjects.Container {
     private shards: Phaser.GameObjects.Text
@@ -7,7 +7,7 @@ export class Stats extends Phaser.GameObjects.Container {
     constructor(scene: Phaser.Scene) {
         super(scene)
 
-        this.shards = scene.add.text(0, 0, `★ ${Globals.shards}`, {
+        this.shards = scene.add.text(0, 0, `★ ${Saved.shards}`, {
             fontFamily: "Verdana",
             fontSize: "18px",
             fontStyle: "bold",
@@ -17,7 +17,7 @@ export class Stats extends Phaser.GameObjects.Container {
             align: "right"
         })
 
-        this.seeds = scene.add.text(0, 26, `❖ ${Globals.seeds}`, {
+        this.seeds = scene.add.text(0, 26, `❖ ${Saved.seeds}`, {
             fontFamily: "Verdana",
             fontSize: "18px",
             fontStyle: "bold",
@@ -48,7 +48,7 @@ export class Stats extends Phaser.GameObjects.Container {
 
     protected preUpdate(): void {
         // update stats each frame
-        this.shards.setText(`★ ${Globals.shards}`)
-        this.seeds.setText(`❖ ${Globals.seeds}`)
+        this.shards.setText(`★ ${Saved.shards}`)
+        this.seeds.setText(`❖ ${Saved.seeds}`)
     }
 }

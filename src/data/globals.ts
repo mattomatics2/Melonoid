@@ -9,7 +9,11 @@ export const Globals = {
     shieldCount: 0,
     pierceCount: 0,
 
-    melonFrequency: 2000,
+    melonFrequency: 2000
+}
+
+export const Saved = {
+    unlocks: [""],
     shards: 0,
     seeds: 0
 }
@@ -42,5 +46,3 @@ export const Phases: phases = {
         shardChance: 5
     },
 }
-
-export const SavedUnlocks = [""]
