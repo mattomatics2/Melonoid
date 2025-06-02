@@ -87,7 +87,7 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
             const offset = angleSpread * percent
             const angle = baseAngle + offset
 
-            const bullet = new Bullet(this.scene, this.groups, this.x, this.y)
+            const bullet = new Bullet(this.scene, this.x, this.y)
             bullet.rotation = angle
 
             this.groups.bullets.add(bullet)

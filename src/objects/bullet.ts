@@ -1,16 +1,13 @@
 import { Globals } from "../data/globals"
-import type { groups } from "../data/types"
 import type { Melon } from "./melon"
 
 export class Bullet extends Phaser.Physics.Arcade.Sprite {
-    private groups: groups
     private hitMelons = new Set<Melon>
     private health = Globals.pierceCount
     private damage = Globals.fireDamage
     
-    constructor(scene: Phaser.Scene, groups: groups, x: integer, y: integer) {
+    constructor(scene: Phaser.Scene, x: integer, y: integer) {
         super(scene, x, y, "bullet")
-        this.groups = groups
         this.setup()
     }
 
