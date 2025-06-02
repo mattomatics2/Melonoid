@@ -27,17 +27,17 @@ export const treeData: unlocks = {
         unlock: () => Globals.fireDelay = 125
     },
 
-    // multiplier
+    // luck
     "Luck I": {
         x: -2, y: 0,
         requirement: "Quickshot I", price: 15,
-        unlock: () => Globals.multiplier = 1.1
+        unlock: () => Globals.luck = 1.2
     },
 
     "Luck II": {
         x: -4, y: 0,
         requirement: "Luck I", price: 25,
-        unlock: () => Globals.multiplier = 1.2
+        unlock: () => Globals.luck = 1.5
     },
 
     // damage

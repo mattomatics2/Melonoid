@@ -10,6 +10,9 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
     private lastShot = 0
 
     speed = 1500
+    turnSpeed = 10
+
+    disableUpgrades = false
     enableWrapping = true
     eventEmitter = new Phaser.Events.EventEmitter()
 
@@ -30,7 +33,7 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
         // sprite properties
         this.setScale(0.2, 0.2)
         this.setDrag(50)
-        this.setMaxVelocity(500, 500)
+        this.setMaxVelocity(350, 350)
         this.setDepth(5)
 
         // inputs
@@ -48,7 +51,7 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
         const worldPoint = this.scene.cameras.main.getWorldPoint(mouseX, mouseY)
         
         const angle = Phaser.Math.Angle.Between(this.x, this.y, worldPoint.x, worldPoint.y)
-        this.rotation = Phaser.Math.Angle.RotateTo(this.rotation, angle, Globals.turnSpeed * (delta / 1000))
+        this.rotation = Phaser.Math.Angle.RotateTo(this.rotation, angle, this.turnSpeed * (delta / 1000))
 
         // movement
         const directionX = this.inputManager.getInputAxis("right", "left")
@@ -75,7 +78,7 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
     }
 
     protected spawnBullets(): void {
-        const fireCount = Globals.fireCount
+        const fireCount = this.disableUpgrades ? 1 : Globals.fireCount
         const angleSpread = Phaser.Math.DegToRad(30 * (Globals.fireCount / 3))
         const baseAngle = this.rotation
 
@@ -84,7 +87,7 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
             const offset = angleSpread * percent
             const angle = baseAngle + offset
 
-            const bullet = new Bullet(this.scene, this.x, this.y)
+            const bullet = new Bullet(this.scene, this.groups, this.x, this.y)
             bullet.rotation = angle
 
             this.groups.bullets.add(bullet)

@@ -5,7 +5,7 @@ import { Notifier } from "../effects/notifier"
 import { treeData } from "../data/unlocks"
 import { Line } from "../objects/line"
 import { Stats } from "../objects/stats"
-import { Background } from "../effects/background"
+import { Stars } from "../effects/stars"
 import type { groups } from "../data/types"
 
 export class UpgradeTree extends Phaser.Scene {
@@ -39,8 +39,10 @@ export class UpgradeTree extends Phaser.Scene {
         // objects
         const player = new Player(this, groups, 550, 325)
         player.enableWrapping = false
+        player.disableUpgrades = true
+        
         new Stats(this)
-        new Background(this)
+        new Stars(this)
 
         // go to battle
         player.eventEmitter.on("OutOfBounds", () => {
@@ -65,13 +67,13 @@ export class UpgradeTree extends Phaser.Scene {
 
     protected setupCamera(player: Player): void {
         // camera bounds
-        const bounds = new Phaser.Math.Vector2(1000, 900)
-        const width = this.cameras.main.width
-        const height = this.cameras.main.height
-        
-        const pos = new Phaser.Math.Vector2(-bounds.x / 2, -bounds.y)
-        const size = new Phaser.Math.Vector2(width + bounds.x, height + bounds.y - 200)
-        this.cameras.main.setBounds(pos.x, pos.y, size.x, size.y)
+        const bounds = new Phaser.Math.Vector2(1000, 1000)
+        const offset = new Phaser.Math.Vector2(0, -350)
+        const cam = this.cameras.main
+
+        const pos = new Phaser.Math.Vector2(-bounds.x / 2, -bounds.y / 2)
+        const size = new Phaser.Math.Vector2(cam.width + bounds.x, cam.height + bounds.y)
+        this.cameras.main.setBounds(pos.x + offset.x, pos.y + offset.y, size.x, size.y)
 
         // camera properties
         this.cameras.main.startFollow(player)

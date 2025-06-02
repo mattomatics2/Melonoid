@@ -8,6 +8,7 @@ import type { Bullet } from "../objects/bullet"
 import type { Melon } from "../objects/melon"
 import type { groups } from "../data/types"
 import { treeData } from "../data/unlocks"
+import { Stars } from "../effects/stars"
 
 export class BattleScene extends Phaser.Scene {
     constructor() {
@@ -58,25 +59,12 @@ export class BattleScene extends Phaser.Scene {
         // create objects
         new Player(this, groups, 550, 325)
         new Spawner(this, groups)
+        new Stars(this, 0.5, 0)
         new Stats(this)
 
         // notifier
         const notifier = new Notifier(this)
         notifier.playOnce("tutorial1", "Shoot melons by holding [Space] on your keyboard.")
-    
-        // test scrolling background
-        // const bg = this.add.tileSprite(0, -50, 1100, 700, "stars")
-        // bg.setDepth(-100)
-        // bg.setOrigin(0, 0)
-        // bg.setScrollFactor(0)
-
-        // this.time.addEvent({
-        //     delay: 16,
-        //     loop: true,
-        //     callback: () => {
-        //         bg.tilePositionX += 1
-        //     }
-        // })
     }
 
     protected setupCollisions(groups: groups): void {

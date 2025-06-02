@@ -1,4 +1,4 @@
-import { Phases, Saved } from "../data/globals"
+import { Globals, Phases, Saved } from "../data/globals"
 import { Flash } from "../effects/flash"
 import { Billboard } from "../effects/billboard"
 import type { groups } from "../data/types"
@@ -60,10 +60,9 @@ export class Melon extends Phaser.Physics.Arcade.Sprite {
             }
         }
 
-        // rewards
-        const shardChance = Phases[this.phase].shardChance
-
-        // stars
+        // star reward
+        const shardChance = Phases[this.phase].shardChance * Globals.luck
+        
         if (Math.random() < shardChance / 100) {
             Saved.stars ++
             new Billboard(this.scene, this.x, this.y, "★ 1")

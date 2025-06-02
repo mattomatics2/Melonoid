@@ -5,10 +5,9 @@ export const Globals = {
     fireDamage: 10,
     fireCount: 1,
 
-    multiplier: 1,
+    luck: 1,
     shieldCount: 0,
     pierceCount: 0,
-    turnSpeed: 5,
 
     melonFrequency: 3000
 }

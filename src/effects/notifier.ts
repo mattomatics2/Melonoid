@@ -8,9 +8,10 @@ export class Notifier extends Phaser.GameObjects.Container {
         super(scene, 15, 15)
 
         this.text = scene.add.text(0, 0, "", {
-            fontSize: "16px",
+            fontFamily: "Verdana",
+            fontSize: "18px",
             color: "#ffffff",
-            padding: {x: 10, y: 10},
+            padding: {x: 13, y: 13},
             wordWrap: {width: 300},
             lineSpacing: 5
         })
@@ -34,7 +35,7 @@ export class Notifier extends Phaser.GameObjects.Container {
         this.text.setText(message)
         this.background.clear()
         this.background.fillStyle(0x333333, 0.9)
-        this.background.fillRect(0, 0, this.text.width, this.text.height)
+        this.background.fillRoundedRect(0, 0, this.text.width, this.text.height, 10)
 
         // setup
         this.setX(-this.width)
